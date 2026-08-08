@@ -15,6 +15,7 @@
   "scripts": {
     "build": "medusa build",
     "start": "medusa start",
+    "start:render": "node scripts/render-start.cjs",
     "dev": "medusa develop",
     "lint": "medusa lint",
     "test:integration:http": "TEST_TYPE=integration:http NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
