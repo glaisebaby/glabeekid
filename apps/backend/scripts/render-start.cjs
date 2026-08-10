@@ -6,16 +6,19 @@ if (!process.env.DATABASE_URL && process.env.DATABASE_URL_PRODUCTION) {
   process.env.DATABASE_URL = process.env.DATABASE_URL_PRODUCTION
 }
 
-const adminIndexPath = path.join(
+const builtAdminDir = path.join(
   process.cwd(),
   ".medusa",
   "server",
   "public",
-  "admin",
-  "index.html"
+  "admin"
 )
 
-if (!fs.existsSync(adminIndexPath)) {
+const runtimeAdminDir = path.join(process.cwd(), "public", "admin")
+const runtimeAdminIndexPath = path.join(runtimeAdminDir, "index.html")
+const builtAdminIndexPath = path.join(builtAdminDir, "index.html")
+
+if (!fs.existsSync(builtAdminIndexPath)) {
   const buildResult = spawnSync("npx", ["medusa", "build"], {
     stdio: "inherit",
     shell: process.platform === "win32",
@@ -25,6 +28,11 @@ if (!fs.existsSync(adminIndexPath)) {
   if (buildResult.status !== 0) {
     process.exit(buildResult.status ?? 1)
   }
+}
+
+if (fs.existsSync(builtAdminIndexPath) && !fs.existsSync(runtimeAdminIndexPath)) {
+  fs.mkdirSync(path.dirname(runtimeAdminDir), { recursive: true })
+  fs.cpSync(builtAdminDir, runtimeAdminDir, { recursive: true })
 }
 
 const result = spawnSync("npx", ["medusa", "start"], {
