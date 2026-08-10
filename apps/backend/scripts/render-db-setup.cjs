@@ -4,7 +4,7 @@ if (!process.env.DATABASE_URL && process.env.DATABASE_URL_PRODUCTION) {
   process.env.DATABASE_URL = process.env.DATABASE_URL_PRODUCTION
 }
 
-const result = spawnSync("npx", ["medusa", "start"], {
+const result = spawnSync("npx", ["medusa", "db:setup"], {
   stdio: "inherit",
   shell: process.platform === "win32",
   env: process.env,

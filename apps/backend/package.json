@@ -15,6 +15,7 @@
   "scripts": {
     "build": "medusa build",
     "start": "medusa start",
+    "db:setup:render": "node scripts/render-db-setup.cjs",
     "start:render": "node scripts/render-start.cjs",
     "dev": "medusa develop",
     "lint": "medusa lint",
