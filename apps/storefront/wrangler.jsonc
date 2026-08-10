@@ -1,0 +1,16 @@
+{
+  "main": ".open-next/worker.js",
+  "name": "glabeekid-storefront",
+  "compatibility_date": "2026-08-10",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "glabeekid-storefront"
+    }
+  ]
+}
