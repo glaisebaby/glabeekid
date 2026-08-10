@@ -28,9 +28,9 @@ AUTH_MFA_ENCRYPTION_KEY=<64-char-random-hex>
 MASTER_ACCOUNT_EMAIL=reports@glabeekid.com
 DEFAULT_OPERATIONS_ADMIN_EMAILS=admin@glabeekid.com
 PORT=10000
-STORE_CORS=https://glabeekid.com,https://www.glabeekid.com
-ADMIN_CORS=https://api.glabeekid.com
-AUTH_CORS=https://api.glabeekid.com,https://glabeekid.com,https://www.glabeekid.com
+STORE_CORS=https://glabee.in,https://www.glabee.in
+ADMIN_CORS=https://api.glabee.in
+AUTH_CORS=https://api.glabee.in,https://glabee.in,https://www.glabee.in
 ```
 
 ## Storefront
@@ -55,8 +55,8 @@ npm run cf:deploy
 Required storefront environment variables:
 
 ```env
-NEXT_PUBLIC_MEDUSA_BACKEND_URL=https://api.glabeekid.com
-NEXT_PUBLIC_BASE_URL=https://glabeekid.com
+NEXT_PUBLIC_MEDUSA_BACKEND_URL=https://api.glabee.in
+NEXT_PUBLIC_BASE_URL=https://glabee.in
 NEXT_PUBLIC_DEFAULT_REGION=in
 NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=<publishable-key-from-medusa-admin>
 ```
@@ -71,6 +71,6 @@ Notes:
 
 Recommended domain split:
 
-- `glabeekid.com` -> Cloudflare storefront
-- `www.glabeekid.com` -> Cloudflare storefront
-- `api.glabeekid.com` -> Render backend
+- `glabee.in` -> Cloudflare storefront
+- `www.glabee.in` -> Cloudflare storefront
+- `api.glabee.in` -> Render backend
