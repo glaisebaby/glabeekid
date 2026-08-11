@@ -28,6 +28,9 @@ type SideMenuProps = {
 const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
   const countryToggleState = useToggleState()
   const languageToggleState = useToggleState()
+  const countryCount = new Set(
+    regions?.flatMap((region) => region.countries?.map((country) => country.iso_2) || []) || []
+  ).size
 
   return (
     <div className="h-full">
@@ -128,24 +131,32 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                           />
                         </div>
                       )}
-                      <div
-                        className="flex justify-between rounded-[22px] border border-black/10 bg-white px-4 py-3 text-black shadow-[0_10px_24px_rgba(15,23,42,0.06)]"
-                        onMouseEnter={countryToggleState.open}
-                        onMouseLeave={countryToggleState.close}
-                      >
-                        {regions && (
-                          <CountrySelect
-                            toggleState={countryToggleState}
-                            regions={regions}
-                          />
-                        )}
-                        <ArrowRightMini
-                          className={clx(
-                            "transition-transform duration-150",
-                            countryToggleState.state ? "-rotate-90" : ""
+                      {countryCount > 1 ? (
+                        <div
+                          className="flex justify-between rounded-[22px] border border-black/10 bg-white px-4 py-3 text-black shadow-[0_10px_24px_rgba(15,23,42,0.06)]"
+                          onMouseEnter={countryToggleState.open}
+                          onMouseLeave={countryToggleState.close}
+                        >
+                          {regions && (
+                            <CountrySelect
+                              toggleState={countryToggleState}
+                              regions={regions}
+                            />
                           )}
-                        />
-                      </div>
+                          <ArrowRightMini
+                            className={clx(
+                              "transition-transform duration-150",
+                              countryToggleState.state ? "-rotate-90" : ""
+                            )}
+                          />
+                        </div>
+                      ) : (
+                        <div className="rounded-[22px] border border-black/10 bg-white px-4 py-3 text-black shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
+                          <Text className="text-sm font-medium text-black/70">
+                            Shipping across India
+                          </Text>
+                        </div>
+                      )}
                       <Text className="flex justify-between border-t border-black/8 pt-1 txt-compact-small text-black/46">
                         Copyright {new Date().getFullYear()} Glabeekid. All
                         rights reserved.

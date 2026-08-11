@@ -1,6 +1,7 @@
 "use server"
 
 import { sdk } from "@lib/config"
+import { getPublicStorefrontPath } from "@lib/util/localized-path"
 import medusaError from "@lib/util/medusa-error"
 import { HttpTypes } from "@medusajs/types"
 import { revalidateTag } from "next/cache"
@@ -381,9 +382,7 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
     return e.message
   }
 
-  redirect(
-    `/${formData.get("shipping_address.country_code")}/checkout?step=delivery`
-  )
+  redirect(getPublicStorefrontPath("/checkout?step=delivery", formData.get("shipping_address.country_code") as string))
 }
 
 /**
@@ -419,7 +418,12 @@ export async function placeOrder(cartId?: string) {
     revalidateTag(orderCacheTag)
 
     removeCartId()
-    redirect(`/${countryCode}/order/${cartRes?.order.id}/confirmed`)
+    redirect(
+      getPublicStorefrontPath(
+        `/order/${cartRes?.order.id}/confirmed`,
+        countryCode
+      )
+    )
   }
 
   return cartRes.cart
@@ -450,7 +454,7 @@ export async function updateRegion(countryCode: string, currentPath: string) {
   const productsCacheTag = await getCacheTag("products")
   revalidateTag(productsCacheTag)
 
-  redirect(`/${countryCode}${currentPath}`)
+  redirect(getPublicStorefrontPath(currentPath || "/", countryCode))
 }
 
 export async function listCartOptions() {

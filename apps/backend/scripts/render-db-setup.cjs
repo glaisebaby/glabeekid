@@ -41,3 +41,17 @@ const result = spawnSync("npx", ["medusa", "db:setup"], {
 if (result.status !== 0) {
   process.exit(result.status ?? 1)
 }
+
+const indiaProfileResult = spawnSync(
+  "node",
+  [path.join(process.cwd(), "scripts", "ensure-india-profile.cjs")],
+  {
+    stdio: "inherit",
+    shell: process.platform === "win32",
+    env: process.env,
+  }
+)
+
+if (indiaProfileResult.status !== 0) {
+  process.exit(indiaProfileResult.status ?? 1)
+}

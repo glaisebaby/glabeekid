@@ -3,7 +3,9 @@ import { NextRequest, NextResponse } from "next/server"
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
 const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
-const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "dk"
+const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "in"
+const HIDE_REGION_PREFIX =
+  process.env.NEXT_PUBLIC_HIDE_REGION_PREFIX !== "false"
 
 const regionMapCache = {
   regionMap: new Map<string, HttpTypes.StoreRegion>(),
@@ -115,6 +117,49 @@ export async function middleware(request: NextRequest) {
   const country = countryCode || DEFAULT_REGION
   const firstPathSegment = request.nextUrl.pathname.split("/")[1]?.toLowerCase()
   const urlHasCountry = firstPathSegment === country.toLowerCase()
+
+  if (HIDE_REGION_PREFIX) {
+    const firstSegmentIsRegion =
+      !!firstPathSegment && regionMap.has(firstPathSegment)
+
+    if (firstSegmentIsRegion) {
+      const strippedPath =
+        request.nextUrl.pathname === `/${firstPathSegment}`
+          ? "/"
+          : request.nextUrl.pathname.slice(`/${firstPathSegment}`.length)
+
+      const redirectUrl = `${request.nextUrl.origin}${strippedPath || "/"}${request.nextUrl.search || ""}`
+      const response = NextResponse.redirect(redirectUrl, 307)
+
+      if (!cacheIdCookie) {
+        response.cookies.set("_medusa_cache_id", cacheId, {
+          maxAge: 60 * 60 * 24,
+        })
+      }
+
+      return response
+    }
+
+    const internalPath =
+      request.nextUrl.pathname === "/"
+        ? `/${country}`
+        : `/${country}${request.nextUrl.pathname}`
+
+    const rewriteUrl = new URL(
+      `${internalPath}${request.nextUrl.search || ""}`,
+      request.nextUrl.origin
+    )
+
+    const response = NextResponse.rewrite(rewriteUrl)
+
+    if (!cacheIdCookie) {
+      response.cookies.set("_medusa_cache_id", cacheId, {
+        maxAge: 60 * 60 * 24,
+      })
+    }
+
+    return response
+  }
 
   if (urlHasCountry) {
     if (!cacheIdCookie) {

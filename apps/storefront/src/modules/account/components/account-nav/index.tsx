@@ -1,6 +1,7 @@
 "use client"
 
 import { ArrowRightOnRectangle } from "@medusajs/icons"
+import { stripRegionPrefix } from "@lib/util/localized-path"
 import { clx } from "@modules/common/components/ui"
 import { useParams, usePathname } from "next/navigation"
 
@@ -27,7 +28,7 @@ const AccountNav = ({
   return (
     <div>
       <div className="small:hidden" data-testid="mobile-account-nav">
-        {route !== `/${countryCode}/account` ? (
+        {stripRegionPrefix(route || "/", countryCode) !== "/account" ? (
           <LocalizedClientLink
             href="/account"
             className="flex items-center gap-x-2 text-small-regular py-2"
@@ -182,7 +183,7 @@ const AccountNavLink = ({
 }: AccountNavLinkProps) => {
   const { countryCode }: { countryCode: string } = useParams()
 
-  const active = route.split(countryCode)[1] === href
+  const active = stripRegionPrefix(route, countryCode) === href
   return (
     <LocalizedClientLink
       href={href}

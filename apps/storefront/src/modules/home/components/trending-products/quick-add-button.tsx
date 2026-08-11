@@ -1,6 +1,7 @@
 "use client"
 
 import { addToCart } from "@lib/data/cart"
+import { getPublicStorefrontPath } from "@lib/util/localized-path"
 import { Button } from "@modules/common/components/ui"
 import { useParams, useRouter } from "next/navigation"
 import { useState, useTransition } from "react"
@@ -28,7 +29,7 @@ export default function QuickAddButton({
 
   const handleClick = () => {
     if (!canQuickAdd || !variantId) {
-      router.push(`/${countryCode}/products/${handle}`)
+      router.push(getPublicStorefrontPath(`/products/${handle}`, countryCode))
       return
     }
 

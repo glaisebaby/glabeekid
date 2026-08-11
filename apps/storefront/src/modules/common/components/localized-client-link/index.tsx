@@ -1,5 +1,6 @@
 "use client"
 
+import { getPublicStorefrontPath } from "@lib/util/localized-path"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 import React from "react"
@@ -23,7 +24,7 @@ const LocalizedClientLink = ({
   const { countryCode } = useParams()
 
   return (
-    <Link href={`/${countryCode}${href}`} {...props}>
+    <Link href={getPublicStorefrontPath(href, countryCode as string)} {...props}>
       {children}
     </Link>
   )
