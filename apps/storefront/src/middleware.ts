@@ -6,6 +6,7 @@ const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
 const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "in"
 const HIDE_REGION_PREFIX =
   process.env.NEXT_PUBLIC_HIDE_REGION_PREFIX !== "false"
+const FORCE_HTTPS = process.env.NEXT_PUBLIC_FORCE_HTTPS !== "false"
 
 const regionMapCache = {
   regionMap: new Map<string, HttpTypes.StoreRegion>(),
@@ -99,12 +100,56 @@ async function getCountryCode(
   return countryCode
 }
 
+function requestNeedsHttpsRedirect(request: NextRequest) {
+  if (!FORCE_HTTPS) {
+    return false
+  }
+
+  const hostname = request.nextUrl.hostname
+
+  if (
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname.endsWith(".local")
+  ) {
+    return false
+  }
+
+  const forwardedProto = request.headers.get("x-forwarded-proto")?.toLowerCase()
+  const cfVisitor = request.headers.get("cf-visitor")?.toLowerCase() || ""
+  const protocol = request.nextUrl.protocol.toLowerCase()
+
+  return (
+    forwardedProto === "http" ||
+    protocol === "http:" ||
+    cfVisitor.includes('"scheme":"http"')
+  )
+}
+
+function withSecurityHeaders(response: NextResponse) {
+  if (FORCE_HTTPS) {
+    response.headers.set(
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains; preload"
+    )
+  }
+
+  return response
+}
+
 /**
  * Middleware to handle region selection and onboarding status.
  */
 export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.includes(".")) {
-    return NextResponse.next()
+    return withSecurityHeaders(NextResponse.next())
+  }
+
+  if (requestNeedsHttpsRedirect(request)) {
+    const httpsUrl = new URL(request.nextUrl.toString())
+    httpsUrl.protocol = "https:"
+
+    return NextResponse.redirect(httpsUrl, 308)
   }
 
   const cacheIdCookie = request.cookies.get("_medusa_cache_id")
@@ -137,7 +182,7 @@ export async function middleware(request: NextRequest) {
         })
       }
 
-      return response
+      return withSecurityHeaders(response)
     }
 
     const internalPath =
@@ -158,7 +203,7 @@ export async function middleware(request: NextRequest) {
       })
     }
 
-    return response
+    return withSecurityHeaders(response)
   }
 
   if (urlHasCountry) {
@@ -167,9 +212,9 @@ export async function middleware(request: NextRequest) {
       response.cookies.set("_medusa_cache_id", cacheId, {
         maxAge: 60 * 60 * 24,
       })
-      return response
+      return withSecurityHeaders(response)
     }
-    return NextResponse.next()
+    return withSecurityHeaders(NextResponse.next())
   }
 
   // if the url doesn't have the country, redirect to it
@@ -178,7 +223,7 @@ export async function middleware(request: NextRequest) {
   const queryString = request.nextUrl.search || ""
   const redirectUrl = `${request.nextUrl.origin}/${country}${redirectPath}${queryString}`
 
-  return NextResponse.redirect(redirectUrl, 307)
+  return withSecurityHeaders(NextResponse.redirect(redirectUrl, 307))
 }
 
 export const config = {
