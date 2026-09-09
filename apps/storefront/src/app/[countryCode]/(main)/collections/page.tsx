@@ -1,6 +1,9 @@
 import { Metadata } from "next"
 
-import { listCollections } from "@lib/data/collections"
+import {
+  getVisibleCollections,
+  listCollections,
+} from "@lib/data/collections"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { Heading, Text } from "@modules/common/components/ui"
 
@@ -13,10 +16,12 @@ export const metadata: Metadata = {
   description: "Browse Glabee collections.",
 }
 
-export default async function CollectionsPage(_props: Props) {
+export default async function CollectionsPage(props: Props) {
+  const { countryCode } = await props.params
   const { collections } = await listCollections({
     fields: "id, handle, title, *products",
   })
+  const visibleCollections = await getVisibleCollections(collections, countryCode)
 
   return (
     <div className="bg-[linear-gradient(180deg,#fff8ef_0%,#fbfdff_46%,#fffdf9_100%)]">
@@ -30,9 +35,9 @@ export default async function CollectionsPage(_props: Props) {
           </Heading>
         </div>
 
-        {collections?.length ? (
+        {visibleCollections.length ? (
           <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {collections.map((collection, index) => (
+            {visibleCollections.map((collection, index) => (
               <li key={collection.id}>
                 <LocalizedClientLink
                   href={`/collections/${collection.handle}`}

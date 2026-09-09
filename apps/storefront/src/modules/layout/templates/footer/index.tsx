@@ -2,20 +2,24 @@ import {
   getVisibleCategories,
   listCategories,
 } from "@lib/data/categories"
-import { listCollections } from "@lib/data/collections"
+import {
+  getVisibleCollections,
+  listCollections,
+} from "@lib/data/collections"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { Text, clx } from "@modules/common/components/ui"
 import Image from "next/image"
 
 export default async function Footer({ countryCode }: { countryCode: string }) {
   const { collections } = await listCollections({
-    fields: "*products",
+    fields: "id,handle,title",
   })
   const productCategories = await listCategories()
   const visibleProductCategories = await getVisibleCategories(
     productCategories,
     countryCode
   )
+  const visibleCollections = await getVisibleCollections(collections, countryCode)
 
   return (
     <footer className="w-full border-t border-[#eadfd1] bg-[linear-gradient(180deg,#fffdf9_0%,#fff6ec_100%)]">
@@ -124,18 +128,18 @@ export default async function Footer({ countryCode }: { countryCode: string }) {
                 </ul>
               </div>
             )}
-            {collections && collections.length > 0 && (
+            {visibleCollections.length > 0 && (
               <div className="flex flex-col gap-y-2">
                 <span className="txt-small-plus txt-ui-fg-base">Collections</span>
                 <ul
                   className={clx(
                     "grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small",
                     {
-                      "grid-cols-2": collections.length > 3,
+                      "grid-cols-2": visibleCollections.length > 3,
                     }
                   )}
                 >
-                  {collections.slice(0, 6).map((collection) => (
+                  {visibleCollections.slice(0, 6).map((collection) => (
                     <li key={collection.id}>
                       <LocalizedClientLink
                         className="hover:text-ui-fg-base"

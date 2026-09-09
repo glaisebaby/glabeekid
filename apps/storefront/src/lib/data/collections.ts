@@ -1,8 +1,10 @@
 "use server"
 
 import { sdk } from "@lib/config"
+import { getProductPrice } from "@lib/util/get-product-price"
 import { HttpTypes } from "@medusajs/types"
 import { getCacheOptions } from "./cookies"
+import { listProducts } from "./products"
 
 export const retrieveCollection = async (id: string) => {
   const next = {
@@ -56,4 +58,37 @@ export const getCollectionByHandle = async (
       cache: "force-cache",
     })
     .then(({ collections }) => collections[0] || null)
+}
+
+export const getVisibleCollections = async (
+  collections: HttpTypes.StoreCollection[],
+  countryCode: string
+) => {
+  const visibility = await Promise.all(
+    collections.map(async (collection) => {
+      const {
+        response: { products },
+      } = await listProducts({
+        countryCode,
+        queryParams: {
+          collection_id: collection.id,
+          limit: 100,
+          fields: "id,thumbnail,*images,*variants.calculated_price",
+        },
+      })
+
+      const hasVisibleProduct = products.some((product) => {
+        const hasImage = Boolean(product.thumbnail || product.images?.[0]?.url)
+        const { cheapestPrice } = getProductPrice({ product })
+
+        return hasImage && Boolean(cheapestPrice)
+      })
+
+      return hasVisibleProduct ? collection : null
+    })
+  )
+
+  return visibility.filter(
+    (collection): collection is HttpTypes.StoreCollection => Boolean(collection)
+  )
 }
