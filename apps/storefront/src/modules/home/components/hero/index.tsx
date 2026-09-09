@@ -236,11 +236,6 @@ const Hero = () => {
                 showHeroHeadline ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
               }`}
             >
-              <LocalizedClientLink href="/store">
-                <Button className="h-12 bg-white px-6 text-black hover:bg-[#f2f2f2]">
-                  Shop the catalog
-                </Button>
-              </LocalizedClientLink>
               <LocalizedClientLink href="/collections">
                 <Button
                   variant="secondary"
