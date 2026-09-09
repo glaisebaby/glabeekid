@@ -5,11 +5,11 @@ import "styles/globals.css"
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
   title: {
-    default: "Glabeekid",
-    template: "%s | Glabeekid",
+    default: "Glabee",
+    template: "%s | Glabee",
   },
   description:
-    "Glabeekid is a playful kids fashion storefront built with Next.js and Medusa.",
+    "Glabee is a playful fashion storefront built with Next.js and Medusa.",
   icons: {
     icon: [
       { url: "/favicon.ico" },

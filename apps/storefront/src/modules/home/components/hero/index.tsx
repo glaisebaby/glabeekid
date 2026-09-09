@@ -95,7 +95,7 @@ const Hero = () => {
         >
           <Image
             src="/brand/brand-banner.jpeg"
-            alt="Glabeekid brand banner"
+            alt="Glabee brand banner"
             fill
             priority
             className="object-cover object-center"

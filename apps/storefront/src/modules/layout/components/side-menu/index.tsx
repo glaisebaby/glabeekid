@@ -74,7 +74,7 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                     <div className="relative flex justify-between">
                       <div>
                         <Text className="text-[11px] font-semibold uppercase tracking-[0.28em] text-black/45">
-                          Glabeekid
+                          Glabee
                         </Text>
                         <Text className="mt-2 max-w-[220px] text-sm leading-6 text-black/62">
                           Playful fashion, presented with a cleaner shopping flow.
@@ -158,7 +158,7 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                         </div>
                       )}
                       <Text className="flex justify-between border-t border-black/8 pt-1 txt-compact-small text-black/46">
-                        Copyright {new Date().getFullYear()} Glabeekid. All
+                        Copyright {new Date().getFullYear()} Glabee. All
                         rights reserved.
                       </Text>
                     </div>

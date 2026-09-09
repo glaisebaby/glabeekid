@@ -11,7 +11,7 @@ import {
 } from "@lib/data/india-ops"
 
 export const metadata = {
-  title: "Returns Operations | Glabeekid",
+  title: "Returns Operations | Glabee",
 }
 
 const statusTone: Record<string, string> = {

@@ -72,7 +72,7 @@ async function main() {
 
     await client.query(
       `update store
-       set name = 'Glabeekid Store',
+       set name = 'Glabee Store',
            default_region_id = $1,
            default_location_id = $2,
            updated_at = now()
@@ -109,7 +109,7 @@ async function main() {
       `update stock_location_address
        set city = 'Bengaluru',
            country_code = 'IN',
-           address_1 = 'Glabeekid Fulfillment Hub',
+           address_1 = 'Glabee Fulfillment Hub',
            updated_at = now()
        where id = $1`,
       [addressId]

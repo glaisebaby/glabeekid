@@ -42,7 +42,7 @@ export default async function ProductPreview({
         <div className="mt-4 flex items-start justify-between gap-3 txt-compact-medium">
           <div>
             <Text className="text-xs font-semibold uppercase tracking-[0.18em] text-[#f08a24]">
-              Glabeekid
+              Glabee
             </Text>
             <Text className="mt-2 text-[#1b2144]" data-testid="product-title">
               {product.title}

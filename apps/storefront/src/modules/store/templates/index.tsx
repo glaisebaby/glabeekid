@@ -29,7 +29,7 @@ const StoreTemplate = ({
       <div className="mb-8 border border-black/8 bg-[linear-gradient(135deg,#fff7ea_0%,#ffffff_55%,#f3f8ff_100%)] px-5 py-7 sm:px-8">
         <div className="max-w-3xl">
           <p className="mb-3 inline-flex border border-black/10 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#7a4a00]">
-            Glabeekid catalog
+            Glabee catalog
           </p>
           <h1
             className="text-3xl font-semibold text-[#1b2144] sm:text-4xl"

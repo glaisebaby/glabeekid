@@ -21,7 +21,7 @@ const Register = ({ setCurrentView }: Props) => {
       data-testid="register-page"
     >
       <h1 className="mb-4 text-center text-3xl font-semibold uppercase tracking-[0.08em] text-black">
-        Join Glabeekid
+        Join Glabee
       </h1>
       <p className="mb-5 text-center text-base leading-7 text-black/65">
         Create your profile to save addresses, track orders, and check out
@@ -81,7 +81,7 @@ const Register = ({ setCurrentView }: Props) => {
           data-testid="register-error"
         />
         <span className="mt-6 text-center text-sm leading-6 text-black/65">
-          By creating an account, you agree to Glabeekid&apos;s{" "}
+          By creating an account, you agree to Glabee&apos;s{" "}
           <LocalizedClientLink
             href="/content/privacy-policy"
             className="font-medium underline underline-offset-4"

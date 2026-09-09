@@ -127,7 +127,7 @@ export default async function initial_data_seed({
           address: {
             city: "Bengaluru",
             country_code: "IN",
-            address_1: "Glabeekid Fulfillment Hub",
+            address_1: "Glabee Fulfillment Hub",
           },
         },
       ],

@@ -9,8 +9,9 @@ import PaginatedProducts from "@modules/store/templates/paginated-products"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { HttpTypes } from "@medusajs/types"
 import { OptionValueIds } from "@lib/util/product-option-filters"
+import { hasVisibleCategoryProducts } from "@lib/data/categories"
 
-export default function CategoryTemplate({
+export default async function CategoryTemplate({
   category,
   sortBy,
   page,
@@ -38,6 +39,16 @@ export default function CategoryTemplate({
   }
 
   getParents(category)
+  const visibleChildren = (
+    await Promise.all(
+      (category.category_children ?? []).map(async (child) => ({
+        child,
+        isVisible: await hasVisibleCategoryProducts(child, countryCode),
+      }))
+    )
+  )
+    .filter(({ isVisible }) => isVisible)
+    .map(({ child }) => child)
 
   return (
     <div
@@ -71,10 +82,10 @@ export default function CategoryTemplate({
             <p>{category.description}</p>
           </div>
         )}
-        {category.category_children && (
+        {visibleChildren.length > 0 && (
           <div className="mb-8 text-base-large">
             <ul className="grid grid-cols-1 gap-2">
-              {category.category_children?.map((c) => (
+              {visibleChildren.map((c) => (
                 <li key={c.id}>
                   <InteractiveLink href={`/categories/${c.handle}`}>
                     {c.name}

@@ -19,7 +19,7 @@ export const MASTER_SETTINGS_DEFINITIONS: Record<
     defaultValue: "admin@glabee.in",
   },
   store_display_name: {
-    defaultValue: "Glabee Kid",
+    defaultValue: "Glabee",
   },
   support_email: {
     defaultValue: "support@glabee.in",
@@ -47,7 +47,7 @@ export const MASTER_SETTINGS_DEFINITIONS: Record<
     defaultValue: "Surface",
   },
   delhivery_seller_name: {
-    defaultValue: "Glabee Kid",
+    defaultValue: "Glabee",
   },
   delhivery_seller_address: {
     defaultValue: "",
@@ -56,7 +56,7 @@ export const MASTER_SETTINGS_DEFINITIONS: Record<
     defaultValue: "",
   },
   delhivery_return_name: {
-    defaultValue: "Glabee Kid Returns",
+    defaultValue: "Glabee Returns",
   },
   delhivery_return_address: {
     defaultValue: "",

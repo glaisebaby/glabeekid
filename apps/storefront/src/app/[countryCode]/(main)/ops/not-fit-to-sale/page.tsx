@@ -3,7 +3,7 @@ import { Heading, Text } from "@modules/common/components/ui"
 import { listNotFitToSaleItems } from "@lib/data/india-ops"
 
 export const metadata = {
-  title: "Not Fit to Sale | Glabeekid",
+  title: "Not Fit to Sale | Glabee",
 }
 
 export default async function NotFitToSalePage() {

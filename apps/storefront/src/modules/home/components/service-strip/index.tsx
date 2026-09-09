@@ -40,7 +40,7 @@ export default function ServiceStrip() {
               className="border border-white/12 bg-white/8 p-5 backdrop-blur-md"
             >
               <Text className="text-xs font-semibold uppercase tracking-[0.2em] text-[#ffd37a]">
-                Glabeekid UX
+                Glabee UX
               </Text>
               <Heading level="h3" className="mt-3 text-xl">
                 {point.title}

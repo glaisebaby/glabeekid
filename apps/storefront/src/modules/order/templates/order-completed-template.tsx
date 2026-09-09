@@ -39,7 +39,7 @@ export default async function OrderCompletedTemplate({
                 level="h1"
                 className="max-w-3xl text-[2.4rem] leading-[1.02] text-black sm:text-[3.3rem]"
               >
-                Your Glabeekid order is placed and ready for the next step.
+                Your Glabee order is placed and ready for the next step.
               </Heading>
               <Text className="mt-4 max-w-2xl text-sm leading-7 text-black/66 sm:text-base">
                 We have recorded your order, shared the confirmation to your email,

@@ -11,7 +11,7 @@ type Props = {
 export const metadata: Metadata = {
   title: "Collections",
   description:
-    "Explore Glabeekid collections for ladies, mens, kids, everyday outfits, and occasionwear.",
+    "Explore Glabee collections for ladies, mens, kids, everyday outfits, and occasionwear.",
 }
 
 export default async function CollectionsPage(_props: Props) {

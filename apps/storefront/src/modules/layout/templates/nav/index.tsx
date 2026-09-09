@@ -39,7 +39,7 @@ export default async function Nav() {
               >
                 <Image
                   src="/brand/logo-lockup.jpeg"
-                  alt="Glabeekid"
+                  alt="Glabee"
                   width={220}
                   height={120}
                   className="h-10 w-auto object-contain sm:h-11"

@@ -1,14 +1,21 @@
-import { listCategories } from "@lib/data/categories"
+import {
+  getVisibleCategories,
+  listCategories,
+} from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { Text, clx } from "@modules/common/components/ui"
 import Image from "next/image"
 
-export default async function Footer() {
+export default async function Footer({ countryCode }: { countryCode: string }) {
   const { collections } = await listCollections({
     fields: "*products",
   })
   const productCategories = await listCategories()
+  const visibleProductCategories = await getVisibleCategories(
+    productCategories,
+    countryCode
+  )
 
   return (
     <footer className="w-full border-t border-[#eadfd1] bg-[linear-gradient(180deg,#fffdf9_0%,#fff6ec_100%)]">
@@ -20,7 +27,7 @@ export default async function Footer() {
                 Ready to shop
               </Text>
               <h2 className="text-3xl font-semibold sm:text-4xl">
-                Make every little moment brighter with Glabeekid.
+                Make every little moment brighter with Glabee.
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-7 text-white/74 sm:text-base">
                 Simple browsing, cheerful color stories, and a mobile-friendly
@@ -52,7 +59,7 @@ export default async function Footer() {
             >
               <Image
                 src="/brand/logo-lockup.jpeg"
-                alt="Glabeekid logo"
+                alt="Glabee logo"
                 width={360}
                 height={200}
                 className="h-20 w-auto object-contain"
@@ -64,24 +71,30 @@ export default async function Footer() {
             </p>
           </div>
           <div className="grid grid-cols-2 gap-10 text-small-regular sm:grid-cols-3 md:gap-x-16">
-            {productCategories && productCategories.length > 0 && (
+            {visibleProductCategories.length > 0 && (
               <div className="flex flex-col gap-y-2">
                 <span className="txt-small-plus txt-ui-fg-base">Categories</span>
                 <ul
                   className="grid grid-cols-1 gap-2"
                   data-testid="footer-categories"
                 >
-                  {productCategories.slice(0, 6).map((category) => {
+                  {visibleProductCategories.slice(0, 6).map((category) => {
                     if (category.parent_category) {
                       return null
                     }
 
                     const children =
-                      category.category_children?.map((child) => ({
-                        name: child.name,
-                        handle: child.handle,
-                        id: child.id,
-                      })) || null
+                      category.category_children
+                        ?.filter((child) =>
+                          visibleProductCategories.some(
+                            (category) => category.id === child.id
+                          )
+                        )
+                        .map((child) => ({
+                          name: child.name,
+                          handle: child.handle,
+                          id: child.id,
+                        })) || null
 
                     return (
                       <li
@@ -144,7 +157,7 @@ export default async function Footer() {
               </div>
             )}
             <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base">Glabeekid</span>
+              <span className="txt-small-plus txt-ui-fg-base">Glabee</span>
               <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
                 <li>
                   <LocalizedClientLink
@@ -176,7 +189,7 @@ export default async function Footer() {
         </div>
         <div className="mb-12 flex w-full flex-col gap-2 border-t border-[#eadfd1] pt-6 text-ui-fg-muted sm:flex-row sm:justify-between">
           <Text className="txt-compact-small">
-            Copyright {new Date().getFullYear()} Glabeekid. All rights reserved.
+            Copyright {new Date().getFullYear()} Glabee. All rights reserved.
           </Text>
           <Text className="txt-compact-small">
             Built for launch with Medusa, Next.js, and PostgreSQL.

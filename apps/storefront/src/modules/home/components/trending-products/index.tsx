@@ -142,7 +142,7 @@ export default async function TrendingProducts({
                 <div className="flex flex-col gap-4 px-5 pb-5 pt-1">
                   <div className="space-y-2">
                     <Text className="text-xs font-semibold uppercase tracking-[0.2em] text-[#767676]">
-                      Glabeekid pick
+                      Glabee pick
                     </Text>
                     <LocalizedClientLink href={`/products/${product.handle}`}>
                       <Heading level="h3" className="text-xl text-[#111111]">

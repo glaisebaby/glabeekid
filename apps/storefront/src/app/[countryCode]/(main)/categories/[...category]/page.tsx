@@ -1,7 +1,12 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { getCategoryByHandle, listCategories } from "@lib/data/categories"
+import {
+  getCategoryByHandle,
+  getVisibleCategories,
+  hasVisibleCategoryProducts,
+  listCategories,
+} from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
 import { HttpTypes, StoreRegion } from "@medusajs/types"
 import CategoryTemplate from "@modules/categories/templates"
@@ -30,18 +35,21 @@ export async function generateStaticParams() {
     regions?.map((r) => r.countries?.map((c) => c.iso_2)).flat()
   )
 
-  const categoryHandles = product_categories.map(
-    (category: HttpTypes.StoreProductCategory) => category.handle
-  )
+  const staticParams = (
+    await Promise.all(
+      countryCodes?.filter(Boolean).map(async (countryCode) => {
+        const visibleCategories = await getVisibleCategories(
+          product_categories,
+          countryCode!
+        )
 
-  const staticParams = countryCodes
-    ?.map((countryCode: string | undefined) =>
-      categoryHandles.map((handle: string) => ({
-        countryCode,
-        category: [handle],
-      }))
+        return visibleCategories.map((category: HttpTypes.StoreProductCategory) => ({
+          countryCode,
+          category: [category.handle],
+        }))
+      }) ?? []
     )
-    .flat()
+  ).flat()
 
   return staticParams
 }
@@ -51,7 +59,11 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   try {
     const productCategory = await getCategoryByHandle(params.category)
 
-    const title = productCategory.name + " | Glabeekid"
+    if (!(await hasVisibleCategoryProducts(productCategory, params.countryCode))) {
+      notFound()
+    }
+
+    const title = productCategory.name + " | Glabee"
 
     const description = productCategory.description ?? `${title} category.`
 
@@ -75,7 +87,10 @@ export default async function CategoryPage(props: Props) {
 
   const productCategory = await getCategoryByHandle(params.category)
 
-  if (!productCategory) {
+  if (
+    !productCategory ||
+    !(await hasVisibleCategoryProducts(productCategory, params.countryCode))
+  ) {
     notFound()
   }
 
