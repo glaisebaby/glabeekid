@@ -55,14 +55,14 @@ export default async function Footer({ countryCode }: { countryCode: string }) {
           <div className="max-w-sm">
             <LocalizedClientLink
               href="/"
-              className="inline-flex overflow-hidden border border-[#e8ddd0] bg-white p-2 shadow-sm"
+              className="inline-flex overflow-hidden rounded-full border border-[#e8ddd0] bg-white p-2 shadow-sm"
             >
               <Image
-                src="/brand/logo-lockup.jpeg"
+                src="/icon.png"
                 alt="Glabee logo"
-                width={360}
-                height={200}
-                className="h-20 w-auto object-contain"
+                width={128}
+                height={128}
+                className="h-20 w-20 rounded-full object-cover"
               />
             </LocalizedClientLink>
           </div>

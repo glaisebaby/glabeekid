@@ -38,11 +38,11 @@ export default async function Nav() {
                 data-testid="nav-store-link"
               >
                 <Image
-                  src="/brand/logo-lockup.jpeg"
+                  src="/icon.png"
                   alt="Glabee"
-                  width={220}
-                  height={120}
-                  className="h-10 w-auto object-contain sm:h-11"
+                  width={96}
+                  height={96}
+                  className="h-12 w-12 rounded-full object-cover sm:h-14 sm:w-14"
                   priority
                 />
               </LocalizedClientLink>
