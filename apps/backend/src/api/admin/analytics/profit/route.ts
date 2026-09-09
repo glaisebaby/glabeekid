@@ -3,7 +3,7 @@ import {
   MedusaResponse,
 } from "@medusajs/framework/http"
 import {
-  assertMasterAccount,
+  canViewAnalytics,
   getDatabaseClient,
 } from "../../../../lib/access-control"
 
@@ -108,7 +108,52 @@ export async function GET(
   const client = await getDatabaseClient()
 
   try {
-    const permission = await assertMasterAccount(req, client)
+    const permission = await (async () => {
+      const actorId = req.auth_context?.actor_id
+
+      if (!actorId) {
+        return {
+          ok: false as const,
+          status: 401,
+          message: "Authentication required.",
+        }
+      }
+
+      const users = await client.query<{
+        id: string
+        email: string
+        first_name: string | null
+        last_name: string | null
+      }>(
+        `select id, email, first_name, last_name from public."user" where id = $1 limit 1`,
+        [actorId]
+      )
+
+      const actor = users.rows[0]
+
+      if (!actor) {
+        return {
+          ok: false as const,
+          status: 401,
+          message: "Authentication required.",
+        }
+      }
+
+      const allowed = await canViewAnalytics(client, actor.email)
+
+      if (!allowed) {
+        return {
+          ok: false as const,
+          status: 403,
+          message: "You do not have permission to access analytics.",
+        }
+      }
+
+      return {
+        ok: true as const,
+        actor,
+      }
+    })()
 
     if (!permission.ok) {
       return res.status(permission.status).json({

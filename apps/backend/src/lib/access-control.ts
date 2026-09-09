@@ -1,5 +1,11 @@
 import { AuthenticatedMedusaRequest } from "@medusajs/framework/http"
 import { Client } from "pg"
+import {
+  getAnalyticsAllowedEmails,
+  getMasterSettings,
+  normalizeEmail,
+  parseEmailList,
+} from "./master-settings"
 
 export const MASTER_ACCOUNT_ROLE = "master_account"
 export const OPERATIONS_ADMIN_ROLE = "operations_admin"
@@ -33,16 +39,6 @@ type RoleRow = {
   email: string
   role: AdminRole
 }
-
-const MASTER_EMAIL = (
-  process.env.MASTER_ACCOUNT_EMAIL || "reports@glabeekid.com"
-).toLowerCase()
-const DEFAULT_OPERATIONS_EMAILS = (
-  process.env.DEFAULT_OPERATIONS_ADMIN_EMAILS || "admin@glabeekid.com"
-)
-  .split(",")
-  .map((email) => email.trim().toLowerCase())
-  .filter(Boolean)
 
 export const getDatabaseClient = async () => {
   const client = new Client({
@@ -102,6 +98,11 @@ export const getAdminUserByActorId = async (
 }
 
 export const seedDefaultAdminRoles = async (client: Client) => {
+  const settings = await getMasterSettings(client)
+  const masterEmail = normalizeEmail(String(settings.master_account_email || ""))
+  const defaultOperationsEmails = parseEmailList(
+    String(settings.default_operations_admin_emails || "")
+  )
   const result = await client.query<AdminUserRow>(
     `select id, email, first_name, last_name from public."user"`
   )
@@ -110,9 +111,9 @@ export const seedDefaultAdminRoles = async (client: Client) => {
     const email = user.email.toLowerCase()
     let role: AdminRole | null = null
 
-    if (email === MASTER_EMAIL) {
+    if (email === masterEmail) {
       role = MASTER_ACCOUNT_ROLE
-    } else if (DEFAULT_OPERATIONS_EMAILS.includes(email)) {
+    } else if (defaultOperationsEmails.includes(email)) {
       role = OPERATIONS_ADMIN_ROLE
     }
 
@@ -141,8 +142,10 @@ export const getAdminRoleForUser = async (
   email: string
 ): Promise<AdminRole | null> => {
   const normalizedEmail = email.toLowerCase()
+  const settings = await getMasterSettings(client)
+  const masterEmail = normalizeEmail(String(settings.master_account_email || ""))
 
-  if (normalizedEmail === MASTER_EMAIL) {
+  if (normalizedEmail === masterEmail) {
     return MASTER_ACCOUNT_ROLE
   }
 
@@ -152,6 +155,20 @@ export const getAdminRoleForUser = async (
   )
 
   return (result.rows[0]?.role as AdminRole | undefined) ?? null
+}
+
+export const canViewAnalytics = async (client: Client, email: string) => {
+  const normalizedEmail = normalizeEmail(email)
+  const settings = await getMasterSettings(client)
+  const masterEmail = normalizeEmail(String(settings.master_account_email || ""))
+
+  if (normalizedEmail === masterEmail) {
+    return true
+  }
+
+  const allowedEmails = await getAnalyticsAllowedEmails(client)
+
+  return allowedEmails.includes(normalizedEmail)
 }
 
 export const getActorContext = async (

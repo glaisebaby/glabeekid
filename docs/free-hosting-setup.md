@@ -5,7 +5,7 @@ This project can start on a free stack with:
 - `Cloudflare` for the Next.js storefront
 - `Render` for the Medusa backend/admin
 - `Neon` for PostgreSQL
-- `cron-job.org` for a 14-minute keep-alive ping to the free Render backend
+- `Cloudflare Workers Cron Triggers` for a 14-minute keep-alive ping to the free Render backend
 
 ## Important limitation
 
@@ -73,8 +73,6 @@ AUTH_CORS=https://<your-cloudflare-storefront-domain>,https://<your-render-backe
 JWT_SECRET=<strong-random-secret>
 COOKIE_SECRET=<strong-random-secret>
 AUTH_MFA_ENCRYPTION_KEY=<64-char-random-hex>
-MASTER_ACCOUNT_EMAIL=reports@glabeekid.com
-DEFAULT_OPERATIONS_ADMIN_EMAILS=admin@glabeekid.com
 MEDUSA_ADMIN_ONBOARDING_TYPE=nextjs
 MEDUSA_ADMIN_ONBOARDING_NEXTJS_DIRECTORY=glabeekid\\apps\\storefront
 ```
@@ -105,25 +103,74 @@ NODE_ENV=production
 
 ## Keep Render awake
 
-Render free sleeps after 15 minutes of inactivity, so use `cron-job.org` to hit
-the ping endpoint every 14 minutes.
+Render free sleeps after 15 minutes of inactivity, so use the dedicated
+Cloudflare keepalive Worker in [apps/keepalive-worker](E:/projects/AI/glabeekid/apps/keepalive-worker)
+to hit the backend ping endpoint every 14 minutes.
 
-### cron-job.org schedule
-
-- URL:
-
-```text
-https://<your-render-backend-domain>/ping
-```
-
-- Method: `GET`
-- Schedule: every `14` minutes
-
-Suggested cron:
+### Default cron schedule
 
 ```text
 */14 * * * *
 ```
+
+### Keepalive Worker settings
+
+Set or keep these values in the Cloudflare Worker settings:
+
+```env
+KEEPALIVE_TARGET_URL=https://api.glabee.in/ping
+KEEPALIVE_MODE=pause_at_night
+KEEPALIVE_TIMEZONE=Asia/Kolkata
+KEEPALIVE_SLEEP_START_HOUR=1
+KEEPALIVE_SLEEP_END_HOUR=5
+KEEPALIVE_FULL_TIME_DATES=
+KEEPALIVE_FORCE_OFF=false
+```
+
+### What each setting does
+
+- `KEEPALIVE_MODE=always`
+  - ping every 14 minutes all day
+- `KEEPALIVE_MODE=pause_at_night`
+  - skip pinging during the configured night window
+- `KEEPALIVE_SLEEP_START_HOUR=1`
+  - start skipping at `1:00 AM`
+- `KEEPALIVE_SLEEP_END_HOUR=5`
+  - resume pinging at `5:00 AM`
+- `KEEPALIVE_FULL_TIME_DATES=2026-08-15,2026-08-16`
+  - optional override for specific India dates when you want full-time pinging
+  - useful for sale days, catalog updates, or expected late-night traffic
+- `KEEPALIVE_FORCE_OFF=true`
+  - emergency switch to disable all keepalive pings without removing the cron
+
+### Recommended usage pattern
+
+- Normal days:
+  - `KEEPALIVE_MODE=pause_at_night`
+- Busy days when you want no night pause:
+  - either set `KEEPALIVE_MODE=always`
+  - or keep `pause_at_night` and add that date to `KEEPALIVE_FULL_TIME_DATES`
+
+### Manual test routes
+
+After deployment, the keepalive Worker exposes:
+
+```text
+/status
+/run
+```
+
+Examples:
+
+```text
+https://<your-keepalive-worker-domain>/status
+https://<your-keepalive-worker-domain>/run
+```
+
+- `/status`
+  - shows whether the current run window would `ping` or `skip`
+- `/run`
+  - manually triggers one keepalive request to the backend
 
 ## Recommended order
 
@@ -132,7 +179,7 @@ Suggested cron:
 3. Confirm backend admin and `/store/ping`
 4. Create Cloudflare storefront project
 5. Point storefront to the Render backend
-6. Add cron-job.org keep-alive ping
+6. Deploy the Cloudflare keepalive Worker
 
 ## What I already prepared locally
 

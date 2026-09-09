@@ -55,19 +55,19 @@ export default async function TrendingProducts({
         <div className="mb-8 flex flex-wrap gap-3">
           <LocalizedClientLink
             href="/store"
-            className="rounded-full bg-[#111111] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white"
+            className="border border-black bg-black px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#1d1d1d]"
           >
             New in
           </LocalizedClientLink>
           <LocalizedClientLink
             href="/store"
-            className="rounded-full border border-[#d9d9d9] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#111111]"
+            className="border border-black/12 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#111111] transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#f7f9fc]"
           >
             Everyday wear
           </LocalizedClientLink>
           <LocalizedClientLink
             href="/collections"
-            className="rounded-full border border-[#d9d9d9] bg-[#f3f5f7] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#111111]"
+            className="border border-black/12 bg-[#f3f5f7] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#111111] transition-all duration-150 hover:-translate-y-0.5 hover:bg-white"
           >
             Occasion edits
           </LocalizedClientLink>
@@ -75,7 +75,7 @@ export default async function TrendingProducts({
 
         <div className="mb-8 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
-            <Text className="mb-3 inline-flex rounded-full border border-[#dcdcdc] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#111111]">
+            <Text className="mb-3 inline-flex border border-black/10 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#111111]">
               Trending now
             </Text>
             <Heading level="h2" className="text-3xl text-[#111111] sm:text-4xl">
@@ -90,7 +90,7 @@ export default async function TrendingProducts({
           <LocalizedClientLink href="/store">
             <Button
               variant="secondary"
-              className="h-11 rounded-full border-[#d9d9d9] bg-white px-5 text-[#111111] hover:bg-[#f3f5f7]"
+              className="h-11 border-black/12 bg-white px-5 text-[#111111] hover:bg-[#f3f5f7]"
             >
               Browse all products
             </Button>
@@ -125,7 +125,7 @@ export default async function TrendingProducts({
             return (
               <li
                 key={product.id}
-                className="overflow-hidden rounded-[30px] border border-[#e6e6e6] bg-white shadow-[0_18px_40px_rgba(17,17,17,0.06)]"
+                className="overflow-hidden border border-black/8 bg-white shadow-[0_14px_32px_rgba(15,23,42,0.05)] transition-transform duration-200 hover:-translate-y-1"
               >
                 <LocalizedClientLink href={`/products/${product.handle}`}>
                   <div className="p-3">
@@ -134,7 +134,7 @@ export default async function TrendingProducts({
                       images={product.images}
                       size="full"
                       isFeatured
-                      className="rounded-[22px] bg-[#f6f7f9]"
+                      className="bg-[#f6f7f9]"
                     />
                   </div>
                 </LocalizedClientLink>
@@ -164,18 +164,18 @@ export default async function TrendingProducts({
                         {cheapestPrice?.calculated_price || "Price on request"}
                       </Text>
                     </div>
-                    <div className="flex max-w-[34%] flex-wrap justify-end gap-1">
+                    <div className="flex max-w-[42%] flex-wrap justify-end gap-1">
                       {availableSizes.length > 0 ? (
                         availableSizes.slice(0, 3).map((size) => (
                           <Text
                             key={size}
-                            className="rounded-full border border-[#dddddd] bg-[#f7f7f7] px-2 py-0 text-[10px] font-medium leading-5 text-[#333333]"
+                            className="border border-black/10 bg-[#f7f7f7] px-1.5 py-0 text-[10px] font-medium leading-4 text-[#333333]"
                           >
                             {size}
                           </Text>
                         ))
                       ) : (
-                        <Text className="rounded-full border border-[#dddddd] bg-[#f7f7f7] px-2 py-0 text-[10px] font-medium leading-5 text-[#333333]">
+                        <Text className="border border-black/10 bg-[#f7f7f7] px-1.5 py-0 text-[10px] font-medium leading-4 text-[#333333]">
                           In stock
                         </Text>
                       )}

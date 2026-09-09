@@ -1,0 +1,17 @@
+{
+  "name": "glabeekid-backend-keepalive",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-11",
+  "triggers": {
+    "crons": ["*/14 * * * *"]
+  },
+  "vars": {
+    "KEEPALIVE_TARGET_URL": "https://api.glabee.in/ping",
+    "KEEPALIVE_MODE": "pause_at_night",
+    "KEEPALIVE_TIMEZONE": "Asia/Kolkata",
+    "KEEPALIVE_SLEEP_START_HOUR": "1",
+    "KEEPALIVE_SLEEP_END_HOUR": "5",
+    "KEEPALIVE_FULL_TIME_DATES": "",
+    "KEEPALIVE_FORCE_OFF": "false"
+  }
+}

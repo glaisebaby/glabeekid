@@ -14,12 +14,14 @@ const LoginTemplate = () => {
   const [currentView, setCurrentView] = useState("sign-in")
 
   return (
-    <div className="w-full flex justify-start px-8 py-8">
+    <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
+      <div className="glabee-panel mx-auto w-full max-w-[560px] bg-white p-6 sm:p-8">
       {currentView === "sign-in" ? (
         <Login setCurrentView={setCurrentView} />
       ) : (
         <Register setCurrentView={setCurrentView} />
       )}
+      </div>
     </div>
   )
 }

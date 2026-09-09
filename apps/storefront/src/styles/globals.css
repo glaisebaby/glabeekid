@@ -89,8 +89,37 @@
 
 html,
 body {
-  background: #f4faff;
-  color: #1b2144;
+  background: #f7fafc;
+  color: #121212;
+  font-feature-settings:
+    "ss01" 1,
+    "cv02" 1;
+}
+
+body {
+  min-height: 100vh;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+[class*="rounded"],
+[class*="rounded-"] {
+  border-radius: 0 !important;
+}
+
+img {
+  image-rendering: auto;
 }
 
 html[data-home-intro="pending"] .glabeekid-site-nav {
@@ -106,11 +135,32 @@ html[data-home-intro="complete"] .glabeekid-site-nav {
 
 @layer components {
   .content-container {
-    @apply max-w-[1440px] w-full mx-auto px-6;
+    @apply mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-10;
   }
 
   .contrast-btn {
-    @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
+    @apply border border-black px-4 py-2 transition-colors duration-200 ease-in hover:bg-black hover:text-white;
+  }
+
+  .glabee-panel {
+    @apply border border-black/10 bg-white shadow-[0_14px_30px_rgba(15,23,42,0.05)];
+  }
+
+  .glabee-section {
+    @apply py-10 sm:py-14 lg:py-16;
+  }
+
+  .glabee-interactive-chip {
+    @apply border border-black/10 bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-black hover:-translate-y-0.5 hover:border-black/40 hover:bg-black hover:text-white active:translate-y-[1px];
+  }
+
+  .glabee-soft-loader {
+    @apply inline-flex items-center gap-2 text-xs font-medium tracking-[0.12em] text-black/55;
+  }
+
+  .glabee-soft-loader::before {
+    content: "";
+    @apply h-3 w-3 animate-spin border border-black/35 border-t-transparent;
   }
 
   .text-xsmall-regular {

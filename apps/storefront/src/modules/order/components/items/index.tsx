@@ -14,9 +14,9 @@ const Items = ({ order }: ItemsProps) => {
   const items = order.items
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-x-auto">
       <Divider className="!mb-0" />
-      <Table>
+      <Table className="min-w-[680px] xl:min-w-0">
         <Table.Body data-testid="products-table">
           {items?.length
             ? items

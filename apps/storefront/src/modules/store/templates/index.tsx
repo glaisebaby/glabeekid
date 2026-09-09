@@ -26,9 +26,9 @@ const StoreTemplate = ({
       className="content-container py-8 sm:py-10"
       data-testid="category-container"
     >
-      <div className="mb-8 rounded-[32px] bg-[linear-gradient(135deg,#fff3de_0%,#fffaf4_55%,#eef6ff_100%)] px-6 py-8 sm:px-8">
+      <div className="mb-8 border border-black/8 bg-[linear-gradient(135deg,#fff7ea_0%,#ffffff_55%,#f3f8ff_100%)] px-5 py-7 sm:px-8">
         <div className="max-w-3xl">
-          <p className="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#9a5b00] shadow-sm">
+          <p className="mb-3 inline-flex border border-black/10 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#7a4a00]">
             Glabeekid catalog
           </p>
           <h1
@@ -46,7 +46,7 @@ const StoreTemplate = ({
 
       <div className="flex flex-col gap-8 small:flex-row small:items-start">
         <div className="small:sticky small:top-32">
-          <div className="rounded-[28px] border border-[#f0dcc7] bg-[#fffdf9] pr-2 shadow-[0_16px_40px_rgba(27,33,68,0.06)]">
+          <div className="border border-black/8 bg-[#fffdf9] pr-2 shadow-[0_12px_28px_rgba(15,23,42,0.05)]">
             <RefinementList sortBy={sort} />
           </div>
         </div>

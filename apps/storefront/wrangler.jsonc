@@ -8,7 +8,7 @@
     "NEXT_PUBLIC_MEDUSA_BACKEND_URL": "https://api.glabee.in",
     "NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY": "pk_e490feb9066dbe1fd0297e6d6db391307d6664b3fa89d76fccc2859c32b83754",
     "NEXT_PUBLIC_DEFAULT_REGION": "in",
-    "NEXT_PUBLIC_BASE_URL": "https://glabee.in"
+    "NEXT_PUBLIC_BASE_URL": "https://www.glabee.in"
   },
   "assets": {
     "directory": ".open-next/assets",

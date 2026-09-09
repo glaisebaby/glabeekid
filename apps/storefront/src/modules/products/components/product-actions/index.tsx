@@ -209,7 +209,7 @@ export default function ProductActions({
                       <div className="mt-3 flex justify-end">
                         <LocalizedClientLink
                           href={`/products/${product.handle}#size-guide`}
-                          className="inline-flex items-center rounded-full border border-[#1b2144]/15 bg-[#fff7eb] px-4 py-2 text-sm font-medium text-[#1b2144] transition-colors hover:bg-[#ffe8bf]"
+                          className="inline-flex items-center border border-black/12 bg-[#f7f9fc] px-4 py-2 text-sm font-medium text-black transition-all duration-150 hover:-translate-y-0.5 hover:bg-white"
                         >
                           View size chart
                         </LocalizedClientLink>
@@ -245,6 +245,11 @@ export default function ProductActions({
             ? "Out of stock"
             : "Add to cart"}
         </Button>
+        <p className="text-xs text-black/52">
+          {isAdding
+            ? "Adding to cart. Usually takes 1-2 seconds."
+            : "Stock and pricing refresh automatically when you switch options."}
+        </p>
         <MobileActions
           product={product}
           variant={selectedVariant}

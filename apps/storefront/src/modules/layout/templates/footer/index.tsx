@@ -13,10 +13,10 @@ export default async function Footer() {
   return (
     <footer className="w-full border-t border-[#eadfd1] bg-[linear-gradient(180deg,#fffdf9_0%,#fff6ec_100%)]">
       <div className="content-container flex w-full flex-col">
-        <div className="mt-16 rounded-[34px] bg-[#1b2144] px-6 py-8 text-white shadow-[0_24px_64px_rgba(27,33,68,0.18)] sm:px-8">
+        <div className="mt-16 border border-black bg-[#111111] px-6 py-8 text-white shadow-[0_24px_64px_rgba(17,17,17,0.18)] sm:px-8">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
-              <Text className="mb-3 inline-flex rounded-full bg-white/12 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#ffd37a]">
+              <Text className="mb-3 inline-flex border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#ffd37a]">
                 Ready to shop
               </Text>
               <h2 className="text-3xl font-semibold sm:text-4xl">
@@ -30,13 +30,13 @@ export default async function Footer() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <LocalizedClientLink
                 href="/store"
-                className="rounded-full bg-[#ffb648] px-5 py-3 text-center text-sm font-semibold text-[#1b2144]"
+                className="border border-[#ffb648] bg-[#ffb648] px-5 py-3 text-center text-sm font-semibold text-black transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#ffc362]"
               >
                 Shop all products
               </LocalizedClientLink>
               <LocalizedClientLink
                 href="/collections"
-                className="rounded-full border border-white/20 bg-white/10 px-5 py-3 text-center text-sm font-semibold text-white"
+                className="border border-white/20 bg-white/10 px-5 py-3 text-center text-sm font-semibold text-white transition-all duration-150 hover:-translate-y-0.5 hover:bg-white/14"
               >
                 Explore collections
               </LocalizedClientLink>
@@ -48,14 +48,14 @@ export default async function Footer() {
           <div className="max-w-sm">
             <LocalizedClientLink
               href="/"
-              className="inline-flex overflow-hidden rounded-[24px] border border-[#e8ddd0] bg-white p-2 shadow-sm"
+              className="inline-flex overflow-hidden border border-[#e8ddd0] bg-white p-2 shadow-sm"
             >
               <Image
                 src="/brand/logo-lockup.jpeg"
                 alt="Glabeekid logo"
                 width={360}
                 height={200}
-                className="h-20 w-auto rounded-[18px] object-contain"
+                className="h-20 w-auto object-contain"
               />
             </LocalizedClientLink>
             <p className="mt-4 max-w-sm text-small-regular text-ui-fg-subtle">
@@ -181,6 +181,7 @@ export default async function Footer() {
           <Text className="txt-compact-small">
             Built for launch with Medusa, Next.js, and PostgreSQL.
           </Text>
+          <Text className="txt-compact-small">www.glabee.in</Text>
         </div>
       </div>
     </footer>

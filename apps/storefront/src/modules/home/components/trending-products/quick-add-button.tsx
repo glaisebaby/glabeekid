@@ -51,7 +51,7 @@ export default function QuickAddButton({
       onClick={handleClick}
       disabled={disabled || isPending}
       isLoading={isPending}
-      className="h-11 w-full rounded-full bg-[#1b2144] text-white hover:bg-[#2a3368]"
+      className="h-11 w-full border-black bg-black text-white hover:bg-[#1d1d1d]"
       aria-label={canQuickAdd ? `Add ${title} to cart` : `Choose options for ${title}`}
     >
       {canQuickAdd ? (added ? "Added to cart" : "Add to cart") : "Choose size"}

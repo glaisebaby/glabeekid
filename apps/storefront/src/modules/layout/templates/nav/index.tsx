@@ -18,9 +18,9 @@ export default async function Nav() {
 
   return (
     <div className="glabeekid-site-nav sticky top-0 inset-x-0 z-50 group">
-      <header className="relative mx-auto border-b border-[#f0e1d0] bg-[#fffaf4] duration-200">
-        <nav className="content-container flex w-full flex-col gap-4 py-4 text-small-regular text-[#53607a]">
-          <div className="flex items-center justify-between gap-4">
+      <header className="relative mx-auto border-b border-black/10 bg-[#fcfcfb] duration-200">
+        <nav className="content-container flex w-full flex-col gap-3 py-3 text-small-regular text-[#4c5566] sm:gap-4 sm:py-4">
+          <div className="flex items-center justify-between gap-3 sm:gap-4">
             <div className="flex flex-1 basis-0 items-center md:hidden">
               <div className="h-full">
                 <SideMenu
@@ -34,7 +34,7 @@ export default async function Nav() {
             <div className="flex flex-1 items-center justify-start">
               <LocalizedClientLink
                 href="/"
-                className="flex items-center rounded-full border border-[#eadfd3] bg-white px-2 py-1 shadow-sm transition-transform duration-200 hover:-translate-y-0.5"
+                className="glabee-panel flex items-center bg-white px-2 py-1 hover:-translate-y-0.5"
                 data-testid="nav-store-link"
               >
                 <Image
@@ -42,28 +42,28 @@ export default async function Nav() {
                   alt="Glabeekid"
                   width={220}
                   height={120}
-                  className="h-10 w-auto rounded-full object-contain sm:h-12"
+                  className="h-10 w-auto object-contain sm:h-11"
                   priority
                 />
               </LocalizedClientLink>
             </div>
 
-            <div className="flex flex-1 basis-0 items-center justify-end gap-x-6">
-              <div className="hidden items-center gap-x-6 md:flex">
+            <div className="flex flex-1 basis-0 items-center justify-end gap-x-4 sm:gap-x-6">
+              <div className="hidden items-center gap-x-5 lg:flex">
                 <LocalizedClientLink
-                  className="font-medium transition-colors hover:text-[#1b2144]"
+                  className="font-medium transition-colors hover:text-black"
                   href="/store"
                 >
                   Shop
                 </LocalizedClientLink>
                 <LocalizedClientLink
-                  className="font-medium transition-colors hover:text-[#1b2144]"
+                  className="font-medium transition-colors hover:text-black"
                   href="/collections"
                 >
                   Collections
                 </LocalizedClientLink>
                 <LocalizedClientLink
-                  className="font-medium transition-colors hover:text-[#1b2144]"
+                  className="font-medium transition-colors hover:text-black"
                   href="/account"
                   data-testid="nav-account-link"
                 >
@@ -73,7 +73,7 @@ export default async function Nav() {
               <Suspense
                 fallback={
                   <LocalizedClientLink
-                    className="flex gap-2 font-medium text-[#1b2144]"
+                    className="flex gap-2 font-medium text-black"
                     href="/cart"
                     data-testid="nav-cart-link"
                   >

@@ -25,7 +25,7 @@ export default function CategoryShowcase() {
       <div className="content-container">
         <div className="mb-8 flex flex-col gap-4 lg:mb-10 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <Text className="mb-3 inline-flex rounded-full bg-[#ffe3b9] px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#9a5b00]">
+            <Text className="mb-3 inline-flex border border-black/10 bg-[#ffe3b9] px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#9a5b00]">
               Shop by mood
             </Text>
             <Heading level="h2" className="text-3xl text-[#1b2144] sm:text-4xl">
@@ -43,10 +43,10 @@ export default function CategoryShowcase() {
             <LocalizedClientLink
               key={card.title}
               href="/store"
-              className="group relative overflow-hidden rounded-[30px] border border-[#f0dcc7] bg-white p-6 shadow-[0_18px_46px_rgba(27,33,68,0.08)] transition-transform duration-300 hover:-translate-y-1"
+              className="group relative overflow-hidden border border-black/8 bg-white p-6 shadow-[0_18px_46px_rgba(15,23,42,0.06)] transition-transform duration-200 hover:-translate-y-1"
             >
               <div
-                className={`mb-6 h-32 rounded-[24px] bg-gradient-to-br ${card.accent} opacity-95`}
+                className={`mb-6 h-32 bg-gradient-to-br ${card.accent} opacity-95`}
               />
               <Heading level="h3" className="text-2xl text-[#1b2144]">
                 {card.title}

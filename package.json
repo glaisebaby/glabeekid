@@ -13,7 +13,9 @@
     "test": "turbo test",
     "backend:seed": "turbo seed --filter=@glabeekid/backend",
     "backend:dev": "turbo dev --filter=@glabeekid/backend",
-    "storefront:dev": "turbo dev --filter=@glabeekid/storefront"
+    "storefront:dev": "turbo dev --filter=@glabeekid/storefront",
+    "keepalive:check": "npm --prefix apps/keepalive-worker run check",
+    "keepalive:deploy": "npm --prefix apps/keepalive-worker run deploy"
   },
   "pnpm": {
     "overrides": {

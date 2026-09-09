@@ -14,6 +14,13 @@ type HelpContent = {
 type ViewerAccessResponse = {
   role: string | null
   is_master: boolean
+  permissions?: {
+    can_view_reports?: boolean
+    can_manage_master_settings?: boolean
+    can_view_activity_logs?: boolean
+    can_manage_access_control?: boolean
+    can_view_customer_accounts?: boolean
+  }
 }
 
 const HELP_LIBRARY: Array<{
@@ -211,6 +218,25 @@ const HELP_LIBRARY: Array<{
     },
   },
   {
+    matcher: /^\/?(app\/)?master-settings$/i,
+    content: {
+      badge: "Master Settings",
+      title: "Control credentials and sensitive store defaults",
+      summary:
+        "This master-only page stores operational emails, Delhivery credentials, and store-wide settings used by backend integrations.",
+      steps: [
+        "Update business emails, admin defaults, and courier credentials carefully.",
+        "Keep the Delhivery token, pickup location, and return details aligned with your live Delhivery account.",
+        "Treat this page as the single source of truth for sensitive runtime configuration.",
+      ],
+      storefrontEffects: [
+        "Changes here can affect admin permissions, courier integrations, and order operations immediately.",
+        "Wrong courier or return settings can break shipment creation and tracking.",
+        "Centralized settings reduce hardcoded secrets and environment drift.",
+      ],
+    },
+  },
+  {
     matcher: /^\/?(app\/)?customer-accounts$/i,
     content: {
       badge: "Account Types",
@@ -284,12 +310,16 @@ const MASTER_ONLY_LINKS = [
   '/app/activity-logs',
   '/app/access-control',
   '/app/customer-accounts',
+  '/app/master-settings',
   '/app/settings/store',
 ]
 
 const DashboardHelpWidget = () => {
   const location = useLocation()
   const [viewerRole, setViewerRole] = useState<string | null>(null)
+  const [permissions, setPermissions] = useState<
+    ViewerAccessResponse["permissions"]
+  >(undefined)
 
   const content = useMemo(
     () => getHelpContent(location.pathname),
@@ -313,6 +343,7 @@ const DashboardHelpWidget = () => {
 
         if (isMounted) {
           setViewerRole(payload.role)
+          setPermissions(payload.permissions)
         }
       } catch {
         // Keep the default dashboard behavior if role lookup fails.
@@ -326,13 +357,22 @@ const DashboardHelpWidget = () => {
     }
   }, [])
 
-  const shouldHideMasterOnlyNavigation = viewerRole === "operations_admin"
+  const hiddenLinks = [
+    !permissions?.can_view_reports ? "/app/reports" : null,
+    !permissions?.can_view_activity_logs ? "/app/activity-logs" : null,
+    !permissions?.can_manage_access_control ? "/app/access-control" : null,
+    !permissions?.can_view_customer_accounts ? "/app/customer-accounts" : null,
+    !permissions?.can_manage_master_settings ? "/app/master-settings" : null,
+  ].filter(Boolean) as string[]
+
+  const shouldHideMasterOnlyNavigation =
+    viewerRole === "operations_admin" || hiddenLinks.length > 0
 
   return (
     <>
       {shouldHideMasterOnlyNavigation ? (
         <style>
-          {MASTER_ONLY_LINKS.map(
+          {MASTER_ONLY_LINKS.filter((href) => hiddenLinks.includes(href)).map(
             (href) => `
               a[href="${href}"],
               a[href="${href}"] + div,

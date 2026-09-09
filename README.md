@@ -58,7 +58,7 @@ npm install
 ```bash
 cd apps/backend
 npx medusa db:migrate
-npx medusa user -e admin@glabeekid.com -p ChangeMe123!
+npx medusa user -e admin@glabee.in -p ChangeMe123!
 npm run dev
 ```
 

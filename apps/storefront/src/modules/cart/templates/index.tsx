@@ -13,11 +13,11 @@ const CartTemplate = ({
   customer: HttpTypes.StoreCustomer | null
 }) => {
   return (
-    <div className="py-12">
+    <div className="glabee-section">
       <div className="content-container" data-testid="cart-container">
         {cart?.items?.length ? (
-          <div className="grid grid-cols-1 small:grid-cols-[1fr_360px] gap-x-40">
-            <div className="flex flex-col bg-white py-6 gap-y-6">
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_360px] xl:gap-10">
+            <div className="glabee-panel flex flex-col gap-y-6 p-4 sm:p-6">
               {!customer && (
                 <>
                   <SignInPrompt />
@@ -27,10 +27,10 @@ const CartTemplate = ({
               <ItemsTemplate cart={cart} />
             </div>
             <div className="relative">
-              <div className="flex flex-col gap-y-8 sticky top-12">
+              <div className="sticky top-20 flex flex-col gap-y-8">
                 {cart && cart.region && (
                   <>
-                    <div className="bg-white py-6">
+                    <div className="glabee-panel p-4 sm:p-6">
                       <Summary cart={cart} />
                     </div>
                   </>

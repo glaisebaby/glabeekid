@@ -86,8 +86,8 @@ const Hero = () => {
   const showRevealCards = hasCompletedFirstPlay
 
   return (
-    <section className="border-b border-ui-border-base bg-[#f4faff]">
-      <div className="relative flex min-h-[82vh] items-end overflow-hidden bg-[#deedf8] sm:min-h-[92vh]">
+    <section className="border-b border-black/10 bg-[#f7fafc]">
+      <div className="relative flex min-h-[72vh] items-end overflow-hidden bg-[#dfe7ef] sm:min-h-[82vh] lg:min-h-[92vh]">
         <div
           className={`absolute inset-0 transition-opacity duration-700 ${
             videoReady ? "opacity-0" : "opacity-100"
@@ -105,13 +105,14 @@ const Hero = () => {
 
         <video
           ref={videoRef}
-          className={`absolute inset-0 h-full w-full object-cover object-[62%_center] transition-opacity duration-1000 sm:object-center ${
+          className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-1000 md:object-center ${
             videoReady || videoPlaying ? "opacity-100" : "opacity-0"
           }`}
           autoPlay
           playsInline
           preload="auto"
           poster="/brand/brand-banner.jpeg"
+          muted={isMuted}
           onLoadedMetadata={markVideoReady}
           onLoadedData={markVideoReady}
           onCanPlay={markVideoReady}
@@ -155,7 +156,7 @@ const Hero = () => {
 
         <IconButton
           onClick={() => void toggleMute()}
-          className="absolute right-6 top-6 z-20 h-12 w-12 rounded-full border border-white/20 bg-white/12 text-white backdrop-blur-md transition-colors hover:bg-white/18 sm:right-8 sm:top-8 lg:right-12 lg:top-10"
+          className="absolute right-4 top-4 z-20 h-11 w-11 border border-white/20 bg-white/12 text-white backdrop-blur-md transition-colors hover:bg-white/18 sm:right-6 sm:top-6 lg:right-10 lg:top-8"
           aria-label={
             !audioStateResolved
               ? "Loading video audio"
@@ -219,11 +220,11 @@ const Hero = () => {
           </span>
         </IconButton>
 
-        <div className="content-container relative z-10 grid w-full gap-10 px-6 py-12 sm:px-8 sm:py-14 lg:grid-cols-[minmax(0,1.1fr)_320px] lg:px-12 lg:py-16">
-          <div className="flex max-w-3xl flex-col justify-end">
+        <div className="content-container relative z-10 grid w-full gap-8 py-10 sm:py-12 lg:grid-cols-[minmax(0,1.1fr)_320px] lg:gap-10 lg:py-16">
+          <div className="flex max-w-3xl flex-col justify-end pt-12 sm:pt-16">
             <Heading
               level="h1"
-              className={`relative max-w-3xl text-[2.85rem] font-black italic leading-[0.94] tracking-[-0.04em] transition-all duration-700 sm:text-5xl lg:text-[5.3rem] ${
+              className={`relative max-w-3xl text-[2.35rem] font-black italic leading-[0.94] tracking-[-0.04em] transition-all duration-700 sm:text-[3.35rem] lg:text-[5rem] ${
                 showHeroHeadline ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
               }`}
             >
@@ -242,7 +243,7 @@ const Hero = () => {
 
             <Heading
               level="h2"
-              className={`mt-4 max-w-xl text-sm font-normal leading-6 text-white/84 transition-all duration-700 sm:mt-5 sm:max-w-2xl sm:text-xl sm:leading-7 ${
+              className={`mt-4 max-w-xl text-sm font-normal leading-6 text-white/84 transition-all duration-700 sm:mt-5 sm:max-w-2xl sm:text-lg sm:leading-7 ${
                 showHeroHeadline ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
               }`}
             >
@@ -252,19 +253,19 @@ const Hero = () => {
             </Heading>
 
             <div
-              className={`mt-7 flex flex-col gap-4 transition-all duration-700 sm:mt-8 sm:flex-row ${
+              className={`mt-7 flex flex-col gap-3 transition-all duration-700 sm:mt-8 sm:flex-row ${
                 showHeroHeadline ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
               }`}
             >
               <LocalizedClientLink href="/store">
-                <Button className="h-12 rounded-full bg-[#ffb648] px-6 text-[#1b2144] hover:bg-[#ffcb74]">
+                <Button className="h-12 bg-white px-6 text-black hover:bg-[#f2f2f2]">
                   Shop the catalog
                 </Button>
               </LocalizedClientLink>
               <LocalizedClientLink href="/collections">
                 <Button
                   variant="secondary"
-                  className="h-12 rounded-full border-white/35 bg-white/10 px-6 text-white backdrop-blur-md hover:bg-white/18"
+                  className="h-12 border-white/35 bg-white/10 px-6 text-white backdrop-blur-md hover:bg-white/18"
                 >
                   Explore collections
                 </Button>
@@ -273,9 +274,9 @@ const Hero = () => {
           </div>
 
           <div className="flex flex-col justify-between gap-4 lg:items-end">
-            <div className="grid w-full gap-4 md:grid-cols-3 lg:grid-cols-1 lg:max-w-[290px]">
+            <div className="grid w-full gap-3 md:grid-cols-3 lg:grid-cols-1 lg:max-w-[290px]">
               <div
-                className={`rounded-[24px] border border-white/18 bg-white/12 p-5 text-white/92 backdrop-blur-md transition-all duration-700 ${
+                className={`border border-white/18 bg-white/12 p-4 text-white/92 backdrop-blur-md transition-all duration-700 sm:p-5 ${
                   showRevealCards
                     ? "glabeekid-rise-in opacity-100"
                     : "translate-y-10 opacity-0"
@@ -290,7 +291,7 @@ const Hero = () => {
                 </p>
               </div>
               <div
-                className={`rounded-[24px] border border-white/18 bg-white/12 p-5 text-white/92 backdrop-blur-md transition-all duration-700 ${
+                className={`border border-white/18 bg-white/12 p-4 text-white/92 backdrop-blur-md transition-all duration-700 sm:p-5 ${
                   showRevealCards
                     ? "glabeekid-rise-in opacity-100"
                     : "translate-y-12 opacity-0"
@@ -305,7 +306,7 @@ const Hero = () => {
                 </p>
               </div>
               <div
-                className={`rounded-[24px] border border-white/18 bg-white/12 p-5 text-white/92 backdrop-blur-md transition-all duration-700 ${
+                className={`border border-white/18 bg-white/12 p-4 text-white/92 backdrop-blur-md transition-all duration-700 sm:p-5 ${
                   showRevealCards
                     ? "glabeekid-rise-in opacity-100"
                     : "translate-y-14 opacity-0"

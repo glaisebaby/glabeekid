@@ -97,18 +97,19 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                 aria-label={`Open product image ${index + 1}`}
               >
                 <Container
-                  className="group relative aspect-[29/34] w-full overflow-hidden bg-ui-bg-subtle"
+                  className="group relative aspect-[29/34] w-full overflow-hidden border border-black/8 bg-[#f5f7fa]"
                   id={image.id}
                 >
                   <Image
                     src={image.url}
                     priority={index <= 2}
-                    className="absolute inset-0 rounded-rounded object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    loading={index <= 2 ? undefined : "lazy"}
+                    className="absolute inset-0 object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                     alt={`Product image ${index + 1}`}
                     fill
                     sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
                   />
-                  <div className="absolute inset-x-4 bottom-4 flex items-center justify-between rounded-full bg-black/55 px-4 py-2 text-xs uppercase tracking-[0.22em] text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <div className="absolute inset-x-3 bottom-3 flex items-center justify-between border border-white/20 bg-black/65 px-3 py-2 text-[11px] uppercase tracking-[0.2em] text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <span>Tap to expand</span>
                     <span>Zoom view</span>
                   </div>
@@ -144,7 +145,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-6xl overflow-hidden rounded-[28px] border border-white/10 bg-[#050505] text-white shadow-2xl">
+                <Dialog.Panel className="w-full max-w-6xl overflow-hidden border border-white/10 bg-[#050505] text-white shadow-2xl">
                   <div className="flex items-center justify-between border-b border-white/10 px-4 py-3 small:px-6">
                     <div>
                       <Dialog.Title className="text-sm font-semibold uppercase tracking-[0.24em] text-white/75">
@@ -159,14 +160,14 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                       <button
                         type="button"
                         onClick={() => setIsZoomed((current) => !current)}
-                        className="rounded-full border border-white/15 px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white transition-colors hover:border-white/35 hover:bg-white/10"
+                        className="border border-white/15 px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white transition-colors hover:border-white/35 hover:bg-white/10"
                       >
                         {isZoomed ? "Reset zoom" : "Zoom in"}
                       </button>
                       <button
                         type="button"
                         onClick={close}
-                        className="rounded-full border border-white/15 px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white transition-colors hover:border-white/35 hover:bg-white/10"
+                        className="border border-white/15 px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white transition-colors hover:border-white/35 hover:bg-white/10"
                       >
                         Close
                       </button>
@@ -181,7 +182,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                             key={image.id}
                             type="button"
                             onClick={() => goToImage(index)}
-                            className={`relative aspect-[3/4] overflow-hidden rounded-2xl border transition-colors ${
+                            className={`relative aspect-[3/4] overflow-hidden border transition-colors ${
                               index === activeIndex
                                 ? "border-white/80"
                                 : "border-white/10 hover:border-white/35"
@@ -192,6 +193,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                               alt={`Thumbnail ${index + 1}`}
                               fill
                               className="object-cover"
+                              loading="lazy"
                               sizes="112px"
                             />
                           </button>
@@ -228,7 +230,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                           <button
                             type="button"
                             onClick={goToPrevious}
-                            className="absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/15 bg-black/45 px-4 py-3 text-sm font-semibold text-white transition-colors hover:border-white/35 hover:bg-black/65"
+                            className="absolute left-3 top-1/2 z-10 -translate-y-1/2 border border-white/15 bg-black/45 px-4 py-3 text-sm font-semibold text-white transition-colors hover:border-white/35 hover:bg-black/65"
                             aria-label="View previous image"
                           >
                             Prev
@@ -236,7 +238,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                           <button
                             type="button"
                             onClick={goToNext}
-                            className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/15 bg-black/45 px-4 py-3 text-sm font-semibold text-white transition-colors hover:border-white/35 hover:bg-black/65"
+                            className="absolute right-3 top-1/2 z-10 -translate-y-1/2 border border-white/15 bg-black/45 px-4 py-3 text-sm font-semibold text-white transition-colors hover:border-white/35 hover:bg-black/65"
                             aria-label="View next image"
                           >
                             Next
@@ -253,7 +255,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                           key={image.id}
                           type="button"
                           onClick={() => goToImage(index)}
-                          className={`relative h-20 min-w-16 overflow-hidden rounded-2xl border transition-colors ${
+                          className={`relative h-20 min-w-16 overflow-hidden border transition-colors ${
                             index === activeIndex
                               ? "border-white/80"
                               : "border-white/10 hover:border-white/35"
@@ -264,6 +266,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                             alt={`Thumbnail ${index + 1}`}
                             fill
                             className="object-cover"
+                            loading="lazy"
                             sizes="96px"
                           />
                         </button>

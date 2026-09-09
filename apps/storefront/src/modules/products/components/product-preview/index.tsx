@@ -31,7 +31,7 @@ export default async function ProductPreview({
     <LocalizedClientLink href={`/products/${product.handle}`} className="group">
       <div
         data-testid="product-wrapper"
-        className="rounded-[26px] border border-[#f0dcc7] bg-white p-3 shadow-[0_14px_34px_rgba(27,33,68,0.06)] transition-transform duration-300 hover:-translate-y-1"
+        className="border border-black/8 bg-white p-3 shadow-[0_14px_34px_rgba(15,23,42,0.05)] transition-transform duration-200 hover:-translate-y-1"
       >
         <Thumbnail
           thumbnail={product.thumbnail}

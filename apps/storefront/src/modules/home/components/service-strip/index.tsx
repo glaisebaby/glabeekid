@@ -37,7 +37,7 @@ export default function ServiceStrip() {
           {points.map((point) => (
             <div
               key={point.title}
-              className="rounded-[26px] border border-white/12 bg-white/8 p-5 backdrop-blur-md"
+              className="border border-white/12 bg-white/8 p-5 backdrop-blur-md"
             >
               <Text className="text-xs font-semibold uppercase tracking-[0.2em] text-[#ffd37a]">
                 Glabeekid UX

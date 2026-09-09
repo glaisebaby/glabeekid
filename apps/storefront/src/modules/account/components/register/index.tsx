@@ -17,19 +17,19 @@ const Register = ({ setCurrentView }: Props) => {
 
   return (
     <div
-      className="max-w-sm flex flex-col items-center"
+      className="flex w-full max-w-md flex-col items-center"
       data-testid="register-page"
     >
-      <h1 className="text-large-semi uppercase mb-6">
+      <h1 className="mb-4 text-center text-3xl font-semibold uppercase tracking-[0.08em] text-black">
         Join Glabeekid
       </h1>
-      <p className="text-center text-base-regular text-ui-fg-base mb-4">
+      <p className="mb-5 text-center text-base leading-7 text-black/65">
         Create your profile to save addresses, track orders, and check out
         faster when new drops arrive.
       </p>
       {message?.state === "verification_required" && (
         <div
-          className="w-full mb-4 text-center text-base-regular text-ui-fg-base bg-ui-bg-subtle border border-ui-border-base rounded-rounded p-4"
+          className="mb-4 w-full border border-black/10 bg-[#f8fafc] p-4 text-center text-base text-black/75"
           data-testid="register-verification-message"
         >
           We sent a verification link to <strong>{message.email}</strong>.
@@ -37,7 +37,7 @@ const Register = ({ setCurrentView }: Props) => {
         </div>
       )}
       <form className="w-full flex flex-col" action={formAction}>
-        <div className="flex flex-col w-full gap-y-2">
+        <div className="flex w-full flex-col gap-y-3">
           <Input
             label="First name"
             name="first_name"
@@ -80,18 +80,18 @@ const Register = ({ setCurrentView }: Props) => {
           error={message?.state === "error" ? message.error : null}
           data-testid="register-error"
         />
-        <span className="text-center text-ui-fg-base text-small-regular mt-6">
+        <span className="mt-6 text-center text-sm leading-6 text-black/65">
           By creating an account, you agree to Glabeekid&apos;s{" "}
           <LocalizedClientLink
             href="/content/privacy-policy"
-            className="underline"
+            className="font-medium underline underline-offset-4"
           >
             Privacy Policy
           </LocalizedClientLink>{" "}
           and{" "}
           <LocalizedClientLink
             href="/content/terms-of-use"
-            className="underline"
+            className="font-medium underline underline-offset-4"
           >
             Terms of Use
           </LocalizedClientLink>
@@ -101,11 +101,11 @@ const Register = ({ setCurrentView }: Props) => {
           Join
         </SubmitButton>
       </form>
-      <span className="text-center text-ui-fg-base text-small-regular mt-6">
+      <span className="mt-6 text-center text-sm text-black/70">
         Already a member?{" "}
         <button
           onClick={() => setCurrentView(LOGIN_VIEW.SIGN_IN)}
-          className="underline"
+          className="font-medium underline underline-offset-4"
         >
           Sign in
         </button>
