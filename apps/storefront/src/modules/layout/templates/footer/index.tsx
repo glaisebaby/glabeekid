@@ -55,14 +55,14 @@ export default async function Footer({ countryCode }: { countryCode: string }) {
           <div className="max-w-sm">
             <LocalizedClientLink
               href="/"
-              className="inline-flex overflow-hidden rounded-full border border-[#e8ddd0] bg-white p-2 shadow-sm"
+              className="inline-flex transition-transform duration-150 hover:-translate-y-0.5"
             >
               <Image
-                src="/icon.png"
+                src="/brand/logo-round.png"
                 alt="Glabee logo"
                 width={128}
                 height={128}
-                className="h-20 w-20 rounded-full object-cover"
+                className="h-24 w-24 rounded-full object-contain drop-shadow-sm"
               />
             </LocalizedClientLink>
           </div>

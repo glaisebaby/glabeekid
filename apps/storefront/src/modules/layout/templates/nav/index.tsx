@@ -34,15 +34,15 @@ export default async function Nav() {
             <div className="flex flex-1 items-center justify-start">
               <LocalizedClientLink
                 href="/"
-                className="glabee-panel flex items-center bg-white px-2 py-1 hover:-translate-y-0.5"
+                className="flex items-center transition-transform duration-150 hover:-translate-y-0.5"
                 data-testid="nav-store-link"
               >
                 <Image
-                  src="/icon.png"
+                  src="/brand/logo-round.png"
                   alt="Glabee"
                   width={96}
                   height={96}
-                  className="h-12 w-12 rounded-full object-cover sm:h-14 sm:w-14"
+                  className="h-14 w-14 rounded-full object-contain drop-shadow-sm sm:h-16 sm:w-16"
                   priority
                 />
               </LocalizedClientLink>
