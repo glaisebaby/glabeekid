@@ -22,7 +22,7 @@ export default async function ProductRail({
     },
   })
 
-  if (!pricedProducts) {
+  if (!pricedProducts?.length) {
     return null
   }
 
@@ -31,7 +31,7 @@ export default async function ProductRail({
       <div className="mb-8 flex items-end justify-between gap-4">
         <div>
           <Text className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#f08a24]">
-            Curated edit
+            Collection
           </Text>
           <Text className="txt-xlarge text-[#1b2144]">{collection.title}</Text>
         </div>
