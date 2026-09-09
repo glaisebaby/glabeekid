@@ -76,15 +76,11 @@ export default async function TrendingProducts({
         <div className="mb-8 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
             <Text className="mb-3 inline-flex border border-black/10 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#111111]">
-              Trending now
+              Products
             </Text>
             <Heading level="h2" className="text-3xl text-[#111111] sm:text-4xl">
-              Best-selling looks ready for quick add.
+              Available now
             </Heading>
-            <Text className="mt-3 max-w-xl text-sm leading-7 text-[#4a4a4a] sm:text-base">
-              A fast-pick strip right below the brand story, so shoppers can jump
-              straight from inspiration to cart.
-            </Text>
           </div>
 
           <LocalizedClientLink href="/store">
@@ -142,7 +138,7 @@ export default async function TrendingProducts({
                 <div className="flex flex-col gap-4 px-5 pb-5 pt-1">
                   <div className="space-y-2">
                     <Text className="text-xs font-semibold uppercase tracking-[0.2em] text-[#767676]">
-                      Glabee pick
+                      In stock
                     </Text>
                     <LocalizedClientLink href={`/products/${product.handle}`}>
                       <Heading level="h3" className="text-xl text-[#111111]">
@@ -151,7 +147,8 @@ export default async function TrendingProducts({
                     </LocalizedClientLink>
                     <Text className="line-clamp-2 min-h-12 text-sm leading-6 text-[#555555]">
                       {product.subtitle ||
-                        "Soft, playful styling made for everyday adventures and special moments."}
+                        product.description ||
+                        product.title}
                     </Text>
                   </div>
 

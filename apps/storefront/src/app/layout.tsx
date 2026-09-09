@@ -8,8 +8,7 @@ export const metadata: Metadata = {
     default: "Glabee",
     template: "%s | Glabee",
   },
-  description:
-    "Glabee is a playful fashion storefront built with Next.js and Medusa.",
+  description: "Glabee online store.",
   icons: {
     icon: [
       { url: "/favicon.ico" },

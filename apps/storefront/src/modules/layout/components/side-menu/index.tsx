@@ -76,9 +76,6 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                         <Text className="text-[11px] font-semibold uppercase tracking-[0.28em] text-black/45">
                           Glabee
                         </Text>
-                        <Text className="mt-2 max-w-[220px] text-sm leading-6 text-black/62">
-                          Playful fashion, presented with a cleaner shopping flow.
-                        </Text>
                       </div>
                       <button
                         data-testid="close-menu-button"
@@ -104,14 +101,6 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                       ))}
                     </ul>
                     <div className="relative mt-10 flex flex-col gap-y-5">
-                      <div className="border border-black/10 bg-[#f6f8fb] px-5 py-5 text-black">
-                        <Text className="text-[11px] font-semibold uppercase tracking-[0.28em] text-black/48">
-                          Shopping notes
-                        </Text>
-                        <Text className="mt-3 text-sm leading-7 text-black/70">
-                          Clear pricing, simple delivery choices, and fit guidance stay close to each product so parents can move quickly.
-                        </Text>
-                      </div>
                       {!!locales?.length && (
                         <div
                           className="flex justify-between border border-black/10 bg-white px-4 py-3 text-black shadow-[0_10px_24px_rgba(15,23,42,0.06)]"

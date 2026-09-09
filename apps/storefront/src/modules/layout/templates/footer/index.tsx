@@ -27,12 +27,8 @@ export default async function Footer({ countryCode }: { countryCode: string }) {
                 Ready to shop
               </Text>
               <h2 className="text-3xl font-semibold sm:text-4xl">
-                Make every little moment brighter with Glabee.
+                Shop Glabee
               </h2>
-              <p className="mt-3 max-w-xl text-sm leading-7 text-white/74 sm:text-base">
-                Simple browsing, cheerful color stories, and a mobile-friendly
-                journey built for busy parents.
-              </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <LocalizedClientLink
@@ -65,10 +61,6 @@ export default async function Footer({ countryCode }: { countryCode: string }) {
                 className="h-20 w-auto object-contain"
               />
             </LocalizedClientLink>
-            <p className="mt-4 max-w-sm text-small-regular text-ui-fg-subtle">
-              Premium fashion for babies, toddlers, and kids with playful
-              styling, clear navigation, and a launch-ready shopping experience.
-            </p>
           </div>
           <div className="grid grid-cols-2 gap-10 text-small-regular sm:grid-cols-3 md:gap-x-16">
             {visibleProductCategories.length > 0 && (
@@ -190,9 +182,6 @@ export default async function Footer({ countryCode }: { countryCode: string }) {
         <div className="mb-12 flex w-full flex-col gap-2 border-t border-[#eadfd1] pt-6 text-ui-fg-muted sm:flex-row sm:justify-between">
           <Text className="txt-compact-small">
             Copyright {new Date().getFullYear()} Glabee. All rights reserved.
-          </Text>
-          <Text className="txt-compact-small">
-            Built for launch with Medusa, Next.js, and PostgreSQL.
           </Text>
           <Text className="txt-compact-small">www.glabee.in</Text>
         </div>

@@ -36,7 +36,7 @@ export default function CheckoutLayout({
       <div className="relative" data-testid="checkout-container">{children}</div>
       <div className="py-4 w-full flex items-center justify-center">
         <span className="txt-compact-small text-ui-fg-subtle">
-          Safe checkout for little wardrobes with big personality.
+          Checkout
         </span>
       </div>
     </div>

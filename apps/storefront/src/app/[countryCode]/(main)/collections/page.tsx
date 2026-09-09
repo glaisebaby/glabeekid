@@ -10,8 +10,7 @@ type Props = {
 
 export const metadata: Metadata = {
   title: "Collections",
-  description:
-    "Explore Glabee collections for ladies, mens, kids, everyday outfits, and occasionwear.",
+  description: "Browse Glabee collections.",
 }
 
 export default async function CollectionsPage(_props: Props) {
@@ -24,15 +23,11 @@ export default async function CollectionsPage(_props: Props) {
       <section className="content-container py-14 sm:py-20">
         <div className="mb-10 max-w-3xl">
           <Text className="mb-3 inline-flex border border-black/10 bg-[#ffe3b9] px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#9a5b00]">
-            Glabee edits
+            Collections
           </Text>
           <Heading level="h1" className="text-4xl text-[#111111] sm:text-5xl">
-            Shop every collection in one cheerful place.
+            Collections
           </Heading>
-          <Text className="mt-4 max-w-2xl text-base leading-7 text-[#5e6783]">
-            Browse curated product groups and jump into the styles that fit the
-            moment, from everyday picks to special occasion looks.
-          </Text>
         </div>
 
         {collections?.length ? (

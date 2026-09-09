@@ -35,12 +35,8 @@ const StoreTemplate = ({
             className="text-3xl font-semibold text-[#1b2144] sm:text-4xl"
             data-testid="store-page-title"
           >
-            Easy shopping for bright little wardrobes.
+            Products
           </h1>
-          <p className="mt-4 max-w-2xl text-sm leading-7 text-[#5d6782] sm:text-base">
-            Filter by fit and browse calmly across playful styles, soft basics,
-            and occasion-ready looks designed for everyday Indian families.
-          </p>
         </div>
       </div>
 

@@ -12,7 +12,6 @@ const Hero = () => {
   const [videoPlaying, setVideoPlaying] = useState(false)
   const [hasCompletedFirstPlay, setHasCompletedFirstPlay] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
-  const [soundBlocked, setSoundBlocked] = useState(false)
   const [audioStateResolved, setAudioStateResolved] = useState(false)
 
   const markVideoReady = () => {
@@ -31,12 +30,10 @@ const Hero = () => {
         video.muted = false
         await video.play()
         setIsMuted(false)
-        setSoundBlocked(false)
         setVideoPlaying(true)
       } catch {
         video.muted = true
         setIsMuted(true)
-        setSoundBlocked(true)
 
         try {
           await video.play()
@@ -72,19 +69,15 @@ const Hero = () => {
     if (!nextMuted) {
       try {
         await video.play()
-        setSoundBlocked(false)
         setVideoPlaying(true)
       } catch {
         video.muted = true
         setIsMuted(true)
-        setSoundBlocked(true)
       }
     }
   }
 
   const showHeroHeadline = !videoPlaying || hasCompletedFirstPlay
-  const showRevealCards = hasCompletedFirstPlay
-
   return (
     <section className="border-b border-black/10 bg-[#f7fafc]">
       <div className="relative flex min-h-[72vh] items-end overflow-hidden bg-[#dfe7ef] sm:min-h-[82vh] lg:min-h-[92vh]">
@@ -127,7 +120,6 @@ const Hero = () => {
             setHasCompletedFirstPlay(true)
             setVideoPlaying(false)
             setIsMuted(true)
-            setSoundBlocked(false)
 
             if (!video) {
               return
@@ -228,28 +220,15 @@ const Hero = () => {
                 showHeroHeadline ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
               }`}
             >
-              <span className="text-white">
-                Playful fashion for little explorers.
-              </span>
+              <span className="text-white">Shop Glabee.</span>
               {hasCompletedFirstPlay ? (
                 <span
                   aria-hidden="true"
                   className="glabeekid-rainbow-overlay absolute inset-0"
                 >
-                  Playful fashion for little explorers.
+                  Shop Glabee.
                 </span>
               ) : null}
-            </Heading>
-
-            <Heading
-              level="h2"
-              className={`mt-4 max-w-xl text-sm font-normal leading-6 text-white/84 transition-all duration-700 sm:mt-5 sm:max-w-2xl sm:text-lg sm:leading-7 ${
-                showHeroHeadline ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-              }`}
-            >
-              Your logo, banner, and intro story now lead the storefront with a
-              polished media-first landing experience made for a new-generation
-              kids fashion brand.
             </Heading>
 
             <div
@@ -270,58 +249,6 @@ const Hero = () => {
                   Explore collections
                 </Button>
               </LocalizedClientLink>
-            </div>
-          </div>
-
-          <div className="flex flex-col justify-between gap-4 lg:items-end">
-            <div className="grid w-full gap-3 md:grid-cols-3 lg:grid-cols-1 lg:max-w-[290px]">
-              <div
-                className={`border border-white/18 bg-white/12 p-4 text-white/92 backdrop-blur-md transition-all duration-700 sm:p-5 ${
-                  showRevealCards
-                    ? "glabeekid-rise-in opacity-100"
-                    : "translate-y-10 opacity-0"
-                }`}
-                style={showRevealCards ? { animationDelay: "0.08s" } : undefined}
-              >
-                <p className="text-xs uppercase tracking-[0.22em] text-white/60">
-                  Smart discovery
-                </p>
-                <p className="mt-3 text-sm leading-6">
-                  Search by age, size, color, and special occasion.
-                </p>
-              </div>
-              <div
-                className={`border border-white/18 bg-white/12 p-4 text-white/92 backdrop-blur-md transition-all duration-700 sm:p-5 ${
-                  showRevealCards
-                    ? "glabeekid-rise-in opacity-100"
-                    : "translate-y-12 opacity-0"
-                }`}
-                style={showRevealCards ? { animationDelay: "0.18s" } : undefined}
-              >
-                <p className="text-xs uppercase tracking-[0.22em] text-white/60">
-                  Brand-first loading
-                </p>
-                <p className="mt-3 text-sm leading-6">
-                  The banner carries the first impression while the video fades in.
-                </p>
-              </div>
-              <div
-                className={`border border-white/18 bg-white/12 p-4 text-white/92 backdrop-blur-md transition-all duration-700 sm:p-5 ${
-                  showRevealCards
-                    ? "glabeekid-rise-in opacity-100"
-                    : "translate-y-14 opacity-0"
-                }`}
-                style={showRevealCards ? { animationDelay: "0.28s" } : undefined}
-              >
-                <p className="text-xs uppercase tracking-[0.22em] text-white/60">
-                  Audio aware
-                </p>
-                <p className="mt-3 text-sm leading-6">
-                  {soundBlocked
-                    ? "If your browser blocks autoplay sound, use the button above to enable it."
-                    : "Video sound is enabled, and you can mute it any time."}
-                </p>
-              </div>
             </div>
           </div>
         </div>

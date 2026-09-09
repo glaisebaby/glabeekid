@@ -21,7 +21,7 @@ const Login = ({ setCurrentView }: Props) => {
         Welcome back
       </h1>
       <p className="mb-8 text-center text-base leading-7 text-black/65">
-        Sign in to access an enhanced shopping experience.
+        Sign in to your account.
       </p>
       {message?.state === "verification_required" && (
         <div
