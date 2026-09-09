@@ -1,4 +1,5 @@
 import { listProducts } from "@lib/data/products"
+import { getProductPrice } from "@lib/util/get-product-price"
 import { HttpTypes } from "@medusajs/types"
 import { Text } from "@modules/common/components/ui"
 
@@ -18,11 +19,18 @@ export default async function ProductRail({
     regionId: region.id,
     queryParams: {
       collection_id: collection.id,
-      fields: "*variants.calculated_price",
+      fields: "id,title,handle,thumbnail,*images,*variants.calculated_price",
     },
   })
 
-  if (!pricedProducts?.length) {
+  const visibleProducts = (pricedProducts ?? []).filter((product) => {
+    const hasImage = Boolean(product.thumbnail || product.images?.[0]?.url)
+    const { cheapestPrice } = getProductPrice({ product })
+
+    return hasImage && Boolean(cheapestPrice)
+  })
+
+  if (!visibleProducts.length) {
     return null
   }
 
@@ -40,12 +48,11 @@ export default async function ProductRail({
         </InteractiveLink>
       </div>
       <ul className="grid grid-cols-2 gap-x-6 gap-y-12 small:grid-cols-3 xl:grid-cols-4">
-        {pricedProducts &&
-          pricedProducts.map((product) => (
-            <li key={product.id}>
-              <ProductPreview product={product} region={region} isFeatured />
-            </li>
-          ))}
+        {visibleProducts.map((product) => (
+          <li key={product.id}>
+            <ProductPreview product={product} region={region} isFeatured />
+          </li>
+        ))}
       </ul>
     </div>
   )
