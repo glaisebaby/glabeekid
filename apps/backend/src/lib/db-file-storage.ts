@@ -48,7 +48,7 @@ export const createDbFileKey = (filename: string) => {
 }
 
 export const getDbFileUrl = (key: string) =>
-  `${getPublicBackendUrl()}/static/${encodeURIComponent(key)}`
+  `${getPublicBackendUrl()}/media/${encodeURIComponent(key)}`
 
 export const decodeUploadContent = (content: string, mimeType?: string) => {
   const decodedBase64 = Buffer.from(content, "base64")
