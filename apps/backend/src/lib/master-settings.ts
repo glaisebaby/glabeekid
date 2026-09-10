@@ -82,7 +82,23 @@ export const MASTER_SETTINGS_DEFINITIONS: Record<
   instagram_graph_api_version: {
     defaultValue: "v24.0",
   },
+  instagram_meta_app_id: {
+    defaultValue: "",
+  },
+  instagram_meta_app_secret: {
+    defaultValue: "",
+    isSecret: true,
+  },
+  instagram_facebook_page_id: {
+    defaultValue: "",
+  },
+  instagram_facebook_page_name: {
+    defaultValue: "",
+  },
   instagram_business_account_id: {
+    defaultValue: "",
+  },
+  instagram_business_username: {
     defaultValue: "",
   },
   instagram_access_token: {
@@ -218,6 +234,7 @@ export const getMasterSettingsForAdmin = async (client: Client) => {
       ...settings,
       delhivery_api_token: "",
       instagram_access_token: "",
+      instagram_meta_app_secret: "",
     },
     secrets: {
       delhivery_api_token_configured:
@@ -235,6 +252,14 @@ export const getMasterSettingsForAdmin = async (client: Client) => {
         typeof settings.instagram_access_token === "string" &&
         settings.instagram_access_token.length > 0
           ? `${settings.instagram_access_token.slice(0, 4)}...${settings.instagram_access_token.slice(-4)}`
+          : "",
+      instagram_meta_app_secret_configured:
+        typeof settings.instagram_meta_app_secret === "string" &&
+        settings.instagram_meta_app_secret.length > 0,
+      instagram_meta_app_secret_masked:
+        typeof settings.instagram_meta_app_secret === "string" &&
+        settings.instagram_meta_app_secret.length > 0
+          ? `${settings.instagram_meta_app_secret.slice(0, 4)}...${settings.instagram_meta_app_secret.slice(-4)}`
           : "",
     },
   }

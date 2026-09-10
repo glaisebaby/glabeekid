@@ -54,8 +54,19 @@ export async function POST(
         instagram_graph_api_version: String(
           body.instagram_graph_api_version || "v24.0"
         ),
+        instagram_meta_app_id: String(body.instagram_meta_app_id || ""),
+        instagram_meta_app_secret: String(body.instagram_meta_app_secret || ""),
+        instagram_facebook_page_id: String(
+          body.instagram_facebook_page_id || ""
+        ),
+        instagram_facebook_page_name: String(
+          body.instagram_facebook_page_name || ""
+        ),
         instagram_business_account_id: String(
           body.instagram_business_account_id || ""
+        ),
+        instagram_business_username: String(
+          body.instagram_business_username || ""
         ),
         instagram_access_token: String(body.instagram_access_token || ""),
         instagram_access_token_expires_at: String(

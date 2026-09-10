@@ -17,6 +17,8 @@ type SocialMediaSettingsResponse = {
   secrets: {
     instagram_access_token_configured: boolean
     instagram_access_token_masked: string
+    instagram_meta_app_secret_configured: boolean
+    instagram_meta_app_secret_masked: string
   }
 }
 
@@ -63,6 +65,7 @@ const SocialMediaSettingsPage = () => {
   })
   const [form, setForm] = useState<Record<string, string | boolean>>({})
   const [instagramTokenInput, setInstagramTokenInput] = useState("")
+  const [metaAppSecretInput, setMetaAppSecretInput] = useState("")
   const [status, setStatus] = useState<string | null>(null)
   const [testResult, setTestResult] = useState<string | null>(null)
   const [isSaving, setIsSaving] = useState(false)
@@ -72,8 +75,28 @@ const SocialMediaSettingsPage = () => {
     if (data?.settings) {
       setForm(data.settings)
       setInstagramTokenInput("")
+      setMetaAppSecretInput("")
     }
   }, [data])
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const oauthStatus = params.get("instagram_status")
+    const oauthMessage = params.get("instagram_message")
+
+    if (!oauthStatus) {
+      return
+    }
+
+    setStatus(
+      oauthMessage ||
+        (oauthStatus === "success"
+          ? "Instagram connected successfully."
+          : "Instagram connection failed.")
+    )
+    window.history.replaceState({}, "", window.location.pathname)
+    void refetch()
+  }, [refetch])
 
   const setValue = (key: string, value: string | boolean) => {
     setForm((current) => ({
@@ -96,6 +119,7 @@ const SocialMediaSettingsPage = () => {
         body: JSON.stringify({
           ...form,
           instagram_access_token: instagramTokenInput,
+          instagram_meta_app_secret: metaAppSecretInput,
         }),
       })
 
@@ -115,6 +139,7 @@ const SocialMediaSettingsPage = () => {
           : "Social media settings saved."
       )
       setInstagramTokenInput("")
+      setMetaAppSecretInput("")
       await refetch()
     } catch (err) {
       setStatus(
@@ -123,6 +148,10 @@ const SocialMediaSettingsPage = () => {
     } finally {
       setIsSaving(false)
     }
+  }
+
+  const handleConnectInstagram = () => {
+    window.location.href = "/admin/social-media-settings/oauth/connect"
   }
 
   const handleTestFeed = async () => {
@@ -215,8 +244,40 @@ const SocialMediaSettingsPage = () => {
                 />
               </Field>
               <Field
+                label="Meta App ID"
+                hint="Create this in Meta Developers. This value is safe to display."
+              >
+                <Input
+                  value={String(form.instagram_meta_app_id || "")}
+                  onChange={(event) =>
+                    setValue("instagram_meta_app_id", event.target.value)
+                  }
+                />
+              </Field>
+              <Field
+                label="Meta App Secret"
+                hint={
+                  data.secrets.instagram_meta_app_secret_configured
+                    ? `Currently saved as ${data.secrets.instagram_meta_app_secret_masked}. Leave blank to keep it unchanged.`
+                    : "Paste the Meta app secret from App settings > Basic."
+                }
+              >
+                <Input
+                  type="password"
+                  value={metaAppSecretInput}
+                  placeholder={
+                    data.secrets.instagram_meta_app_secret_configured
+                      ? data.secrets.instagram_meta_app_secret_masked
+                      : "Paste Meta app secret"
+                  }
+                  onChange={(event) =>
+                    setMetaAppSecretInput(event.target.value)
+                  }
+                />
+              </Field>
+              <Field
                 label="Instagram business account ID"
-                hint="The Instagram professional account ID from Meta Graph API."
+                hint="Filled automatically after Connect Instagram succeeds."
               >
                 <Input
                   value={String(form.instagram_business_account_id || "")}
@@ -225,6 +286,39 @@ const SocialMediaSettingsPage = () => {
                       "instagram_business_account_id",
                       event.target.value
                     )
+                  }
+                />
+              </Field>
+              <Field
+                label="Instagram username"
+                hint="Filled automatically from the linked Instagram account."
+              >
+                <Input
+                  value={String(form.instagram_business_username || "")}
+                  onChange={(event) =>
+                    setValue("instagram_business_username", event.target.value)
+                  }
+                />
+              </Field>
+              <Field
+                label="Facebook Page ID"
+                hint="Filled automatically from the linked Facebook Page."
+              >
+                <Input
+                  value={String(form.instagram_facebook_page_id || "")}
+                  onChange={(event) =>
+                    setValue("instagram_facebook_page_id", event.target.value)
+                  }
+                />
+              </Field>
+              <Field
+                label="Facebook Page name"
+                hint="Filled automatically from the linked Facebook Page."
+              >
+                <Input
+                  value={String(form.instagram_facebook_page_name || "")}
+                  onChange={(event) =>
+                    setValue("instagram_facebook_page_name", event.target.value)
                   }
                 />
               </Field>
@@ -280,6 +374,25 @@ const SocialMediaSettingsPage = () => {
                   }
                 />
               </Field>
+            </div>
+          </Container>
+
+          <Container className="p-0">
+            <div className="border-b border-ui-border-base px-6 py-4">
+              <Heading level="h2">Connect with Meta</Heading>
+              <Text className="mt-1 text-sm text-ui-fg-subtle">
+                Save the Meta App ID and App Secret first. Then connect with
+                Facebook to generate and save the long-lived token automatically.
+              </Text>
+            </div>
+            <div className="grid gap-4 px-6 py-5">
+              <Button variant="secondary" onClick={handleConnectInstagram}>
+                Connect Instagram
+              </Button>
+              <Text className="text-xs leading-6 text-ui-fg-subtle">
+                Required Meta redirect URI:
+                https://api.glabee.in/admin/social-media-settings/oauth/callback
+              </Text>
             </div>
           </Container>
 
