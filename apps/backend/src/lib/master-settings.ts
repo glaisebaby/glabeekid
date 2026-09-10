@@ -76,6 +76,25 @@ export const MASTER_SETTINGS_DEFINITIONS: Record<
   delhivery_return_pincode: {
     defaultValue: "",
   },
+  instagram_enabled: {
+    defaultValue: false,
+  },
+  instagram_graph_api_version: {
+    defaultValue: "v24.0",
+  },
+  instagram_business_account_id: {
+    defaultValue: "",
+  },
+  instagram_access_token: {
+    defaultValue: "",
+    isSecret: true,
+  },
+  instagram_access_token_expires_at: {
+    defaultValue: "",
+  },
+  instagram_homepage_reels_limit: {
+    defaultValue: "6",
+  },
 } as const
 
 export type MasterSettingKey = keyof typeof MASTER_SETTINGS_DEFINITIONS
@@ -198,6 +217,7 @@ export const getMasterSettingsForAdmin = async (client: Client) => {
     settings: {
       ...settings,
       delhivery_api_token: "",
+      instagram_access_token: "",
     },
     secrets: {
       delhivery_api_token_configured:
@@ -207,6 +227,14 @@ export const getMasterSettingsForAdmin = async (client: Client) => {
         typeof settings.delhivery_api_token === "string" &&
         settings.delhivery_api_token.length > 0
           ? `${settings.delhivery_api_token.slice(0, 4)}...${settings.delhivery_api_token.slice(-4)}`
+          : "",
+      instagram_access_token_configured:
+        typeof settings.instagram_access_token === "string" &&
+        settings.instagram_access_token.length > 0,
+      instagram_access_token_masked:
+        typeof settings.instagram_access_token === "string" &&
+        settings.instagram_access_token.length > 0
+          ? `${settings.instagram_access_token.slice(0, 4)}...${settings.instagram_access_token.slice(-4)}`
           : "",
     },
   }

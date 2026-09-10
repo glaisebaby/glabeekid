@@ -3,6 +3,7 @@ import React, { Suspense } from "react"
 import ImageGallery from "@modules/products/components/image-gallery"
 import ProductActions from "@modules/products/components/product-actions"
 import ProductOnboardingCta from "@modules/products/components/product-onboarding-cta"
+import ProductInstagramVideo from "@modules/products/components/product-instagram-video"
 import ProductTabs from "@modules/products/components/product-tabs"
 import RelatedProducts from "@modules/products/components/related-products"
 import ProductInfo from "@modules/products/templates/product-info"
@@ -57,6 +58,10 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
           </Suspense>
         </div>
       </div>
+      <ProductInstagramVideo
+        productTitle={product.title}
+        metadata={(product.metadata ?? {}) as Record<string, unknown>}
+      />
       <div
         className="content-container my-16 small:my-32"
         data-testid="related-products-container"
