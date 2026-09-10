@@ -16,6 +16,8 @@ import {
   summarizeAdminMutation,
 } from "../lib/access-control"
 
+const PRODUCT_IMAGE_UPLOAD_SIZE_LIMIT = "5mb"
+
 const auditAdminMutation = async (
   req: MedusaRequest,
   res: MedusaResponse,
@@ -113,6 +115,13 @@ const requireMasterForStoreSettings = async (
 }
 
 export default defineMiddlewares([
+  {
+    methods: ["POST"],
+    matcher: "/admin/uploads",
+    bodyParser: {
+      sizeLimit: PRODUCT_IMAGE_UPLOAD_SIZE_LIMIT,
+    },
+  },
   {
     methods: ["POST", "DELETE"],
     matcher: "/admin/stores",
