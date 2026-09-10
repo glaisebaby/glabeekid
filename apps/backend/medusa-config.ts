@@ -9,7 +9,12 @@ const databaseUrl =
     ? process.env.DATABASE_URL_LOCAL || process.env.DATABASE_URL
     : process.env.DATABASE_URL_PRODUCTION || process.env.DATABASE_URL
 
+const productImageUploadSizeLimit = 5 * 1024 * 1024
+
 module.exports = defineConfig({
+  admin: {
+    maxUploadFileSize: productImageUploadSizeLimit,
+  },
   projectConfig: {
     databaseUrl,
     http: {
