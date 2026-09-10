@@ -12,6 +12,9 @@ const databaseUrl =
 const productImageUploadSizeLimit = 5 * 1024 * 1024
 
 const r2FileUrl = (process.env.R2_FILE_URL || "").replace(/\/$/, "")
+const imageKitUrlEndpoint = (
+  process.env.IMAGEKIT_URL_ENDPOINT || ""
+).replace(/\/$/, "")
 const publicBackendUrl = (
   process.env.MEDUSA_BACKEND_URL ||
   process.env.BACKEND_URL ||
@@ -21,6 +24,9 @@ const publicBackendUrl = (
     : "http://localhost:9000")
 ).replace(/\/$/, "")
 
+const hasImageKitConfig =
+  !!imageKitUrlEndpoint && !!process.env.IMAGEKIT_PRIVATE_KEY
+
 const hasR2Config =
   !!r2FileUrl &&
   !!process.env.R2_ACCESS_KEY_ID &&
@@ -28,7 +34,17 @@ const hasR2Config =
   !!process.env.R2_BUCKET &&
   !!process.env.R2_ENDPOINT
 
-const fileProviderConfig = hasR2Config
+const fileProviderConfig = hasImageKitConfig
+  ? {
+      resolve: "./src/modules/imagekit-file-provider",
+      id: "imagekit",
+      options: {
+        private_key: process.env.IMAGEKIT_PRIVATE_KEY,
+        url_endpoint: imageKitUrlEndpoint,
+        folder: process.env.IMAGEKIT_FOLDER || "/products",
+      },
+    }
+  : hasR2Config
   ? {
       resolve: "@medusajs/medusa/file-s3",
       id: "r2",
