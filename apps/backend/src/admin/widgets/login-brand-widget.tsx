@@ -1,10 +1,36 @@
 import { defineWidgetConfig } from "@medusajs/admin-sdk"
+import { useEffect } from "react"
 
 import logoUrl from "../assets/glabee-admin-logo.png"
 
 const LoginBrandWidget = () => {
+  useEffect(() => {
+    const marker = document.querySelector("[data-glabee-login-brand]")
+    const widgetContainer = marker?.closest(".flex.w-full.flex-col.gap-y-3")
+    const loginCard = widgetContainer?.parentElement
+    const defaultHeaderElements = loginCard
+      ? Array.from(loginCard.children).slice(0, 2)
+      : []
+
+    defaultHeaderElements.forEach((element) => {
+      if (element instanceof HTMLElement) {
+        element.dataset.glabeeOriginalDisplay = element.style.display
+        element.style.display = "none"
+      }
+    })
+
+    return () => {
+      defaultHeaderElements.forEach((element) => {
+        if (element instanceof HTMLElement) {
+          element.style.display = element.dataset.glabeeOriginalDisplay ?? ""
+          delete element.dataset.glabeeOriginalDisplay
+        }
+      })
+    }
+  }, [])
+
   return (
-    <div className="mb-1 flex flex-col items-center gap-y-2">
+    <div data-glabee-login-brand className="mb-1 flex flex-col items-center gap-y-2">
       <img
         src={logoUrl}
         alt="Glabee store logo"
