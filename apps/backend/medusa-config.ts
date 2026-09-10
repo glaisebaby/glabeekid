@@ -77,7 +77,7 @@ module.exports = defineConfig({
     {
       resolve: "@medusajs/medusa/file",
       options: {
-        provider: fileProviderConfig,
+        providers: [fileProviderConfig],
       },
     },
   ],
