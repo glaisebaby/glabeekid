@@ -21,7 +21,7 @@ type InstagramReelsResponse = {
 
 export const listInstagramReels = async () => {
   return sdk.client
-    .fetch<InstagramReelsResponse>("/store/social/instagram-reels", {
+    .fetch<InstagramReelsResponse>("/store/instagram-reels", {
       method: "GET",
       cache: "no-store",
     })
