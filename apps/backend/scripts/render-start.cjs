@@ -30,7 +30,8 @@ if (!fs.existsSync(builtAdminIndexPath)) {
   }
 }
 
-if (fs.existsSync(builtAdminIndexPath) && !fs.existsSync(runtimeAdminIndexPath)) {
+if (fs.existsSync(builtAdminIndexPath)) {
+  fs.rmSync(runtimeAdminDir, { recursive: true, force: true })
   fs.mkdirSync(path.dirname(runtimeAdminDir), { recursive: true })
   fs.cpSync(builtAdminDir, runtimeAdminDir, { recursive: true })
 }
