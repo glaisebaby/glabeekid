@@ -10,6 +10,49 @@ const databaseUrl =
     : process.env.DATABASE_URL_PRODUCTION || process.env.DATABASE_URL
 
 const productImageUploadSizeLimit = 5 * 1024 * 1024
+
+const r2FileUrl = (process.env.R2_FILE_URL || "").replace(/\/$/, "")
+const publicBackendUrl = (
+  process.env.MEDUSA_BACKEND_URL ||
+  process.env.BACKEND_URL ||
+  process.env.RENDER_EXTERNAL_URL ||
+  (process.env.NODE_ENV === "production"
+    ? "https://api.glabee.in"
+    : "http://localhost:9000")
+).replace(/\/$/, "")
+
+const hasR2Config =
+  !!r2FileUrl &&
+  !!process.env.R2_ACCESS_KEY_ID &&
+  !!process.env.R2_SECRET_ACCESS_KEY &&
+  !!process.env.R2_BUCKET &&
+  !!process.env.R2_ENDPOINT
+
+const fileProviderConfig = hasR2Config
+  ? {
+      resolve: "@medusajs/medusa/file-s3",
+      id: "r2",
+      options: {
+        file_url: r2FileUrl,
+        access_key_id: process.env.R2_ACCESS_KEY_ID,
+        secret_access_key: process.env.R2_SECRET_ACCESS_KEY,
+        region: process.env.R2_REGION || "auto",
+        bucket: process.env.R2_BUCKET,
+        endpoint: process.env.R2_ENDPOINT,
+        prefix: process.env.R2_PREFIX || "products/",
+        cache_control: "public, max-age=31536000, immutable",
+        acl: false,
+      },
+    }
+  : {
+      resolve: "@medusajs/medusa/file-local",
+      id: "local",
+      options: {
+        upload_dir: "static",
+        backend_url: `${publicBackendUrl}/static`,
+      },
+    }
+
 module.exports = defineConfig({
   admin: {
     maxUploadFileSize: productImageUploadSizeLimit,
@@ -18,10 +61,7 @@ module.exports = defineConfig({
     {
       resolve: "@medusajs/medusa/file",
       options: {
-        provider: {
-          resolve: "./src/modules/db-file-provider",
-          id: "db",
-        },
+        provider: fileProviderConfig,
       },
     },
   ],
