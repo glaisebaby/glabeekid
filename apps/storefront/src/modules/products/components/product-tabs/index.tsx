@@ -26,17 +26,13 @@ type SizeMeasurement = {
   garmentLength?: string
 }
 
-const METADATA_EXCLUDE_KEYS = new Set([
-  "size_chart_image_url",
-  "size_chart_image_urls",
-  "cost_price",
-  "costPrice",
-  "cost_price_inr",
-  "purchase_price",
-  "purchasePrice",
-  "purchase_cost",
-  "cogs",
-])
+const PRODUCT_DETAIL_METADATA_KEYS = [
+  { key: "glabee_item_code", label: "Item code" },
+  { key: "available_sizes_label", label: "Available sizes" },
+  { key: "original_fabric", label: "Fabric" },
+  { key: "original_gender", label: "Gender" },
+  { key: "fit_note", label: "Fit details" },
+]
 
 const getMetadataRecord = (value: unknown): Record<string, unknown> => {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
@@ -81,35 +77,49 @@ const toDisplayValue = (value: unknown) => {
   return undefined
 }
 
-const formatMetadataLabel = (key: string) => {
-  return key
-    .replace(/_/g, " ")
-    .replace(/([a-z])([A-Z])/g, "$1 $2")
-    .replace(/\b\w/g, (char) => char.toUpperCase())
-}
-
 const getProductMetadataDetails = (
   product: HttpTypes.StoreProduct,
   selectedVariant?: HttpTypes.StoreProductVariant
 ): MetadataDetail[] => {
-  const metadata = {
-    ...getMetadataRecord(product.metadata),
-    ...getMetadataRecord(selectedVariant?.metadata),
-  }
+  const productMetadata = getMetadataRecord(product.metadata)
+  const variantMetadata = getMetadataRecord(selectedVariant?.metadata)
+  const visibleDetails = PRODUCT_DETAIL_METADATA_KEYS.map(({ key, label }) => ({
+    label,
+    value: toDisplayValue(productMetadata[key]),
+  })).filter(
+    (detail): detail is MetadataDetail =>
+      Boolean(detail.value) &&
+      !["-", "null", "undefined"].includes(String(detail.value).toLowerCase())
+  )
+  const variantDetails = [
+    { label: "Selected size", value: selectedVariant?.title },
+    {
+      label: "Chest",
+      value: readMeasurement(variantMetadata, [
+        "chest_cm",
+        "chest",
+        "chest_size_cm",
+      ]),
+    },
+    {
+      label: "Shoulder",
+      value: readMeasurement(variantMetadata, [
+        "shoulder_to_shoulder_cm",
+        "shoulder_cm",
+        "shoulder",
+      ]),
+    },
+    {
+      label: "Length",
+      value: readMeasurement(variantMetadata, [
+        "garment_length_cm",
+        "length_cm",
+        "length",
+      ]),
+    },
+  ].filter((detail): detail is MetadataDetail => Boolean(detail.value))
 
-  return Object.entries(metadata)
-    .filter(([key]) => !METADATA_EXCLUDE_KEYS.has(key))
-    .map(([key, value]) => ({
-      label: formatMetadataLabel(key),
-      value: toDisplayValue(value),
-    }))
-    .filter(
-      (detail): detail is MetadataDetail =>
-        Boolean(detail.value) &&
-        !["material", "country of origin", "type", "weight", "dimensions"].includes(
-          detail.label.toLowerCase()
-        )
-    )
+  return [...visibleDetails, ...variantDetails]
 }
 
 const getDefaultVariant = (product: HttpTypes.StoreProduct) =>
@@ -379,9 +389,7 @@ const ShippingInfoTab = () => {
           <div>
             <span className="font-semibold">Simple return process</span>
             <p className="max-w-sm">
-              Just return your product and we&apos;ll refund your money. No
-              questions asked – we&apos;ll do our best to make sure your return
-              is hassle-free.
+              Contact customer care in whatsapp to process returns.
             </p>
           </div>
         </div>

@@ -45,6 +45,24 @@ const isVariantPurchasable = (variant?: HttpTypes.StoreProductVariant) => {
   return (variant.inventory_quantity || 0) > 0
 }
 
+const readMeasurement = (
+  metadata: Record<string, unknown>,
+  keys: string[]
+) => {
+  for (const key of keys) {
+    const value = metadata[key]
+
+    if (typeof value === "number") {
+      return `${value} cm`
+    }
+
+    if (typeof value === "string" && value.trim()) {
+      return value.toLowerCase().includes("cm") ? value : `${value} cm`
+    }
+  }
+
+  return undefined
+}
 
 export default function ProductActions({
   product,
@@ -172,6 +190,32 @@ export default function ProductActions({
   const sizeOption = (product.options ?? []).find((option) =>
     (option.title ?? "").toLowerCase().includes("size")
   )
+  const selectedMeasurements = useMemo(() => {
+    const metadata = (selectedVariant?.metadata ?? {}) as Record<string, unknown>
+    const chest = readMeasurement(metadata, [
+      "chest_cm",
+      "chest",
+      "chest_size_cm",
+    ])
+    const shoulder = readMeasurement(metadata, [
+      "shoulder_to_shoulder_cm",
+      "shoulder_cm",
+      "shoulder",
+    ])
+    const length = readMeasurement(metadata, [
+      "garment_length_cm",
+      "length_cm",
+      "length",
+    ])
+    const totalHeight = readMeasurement(metadata, [
+      "total_height_cm",
+      "height_cm",
+      "total_height",
+    ])
+
+    return { chest, shoulder, length, totalHeight }
+  }, [selectedVariant])
+  const hasSelectedMeasurements = Object.values(selectedMeasurements).some(Boolean)
 
   // add the selected variant to the cart
   const handleAddToCart = async () => {
@@ -222,6 +266,28 @@ export default function ProductActions({
             </div>
           )}
         </div>
+
+        {hasSelectedMeasurements && selectedVariant ? (
+          <div className="border border-black/10 bg-[#fffaf3] px-4 py-3 text-sm text-black">
+            <p className="font-semibold">
+              Measurements for selected size {selectedVariant.title}
+            </p>
+            <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-xs leading-5 text-black/70">
+              {selectedMeasurements.shoulder ? (
+                <p>Shoulder: {selectedMeasurements.shoulder}</p>
+              ) : null}
+              {selectedMeasurements.chest ? (
+                <p>Chest: {selectedMeasurements.chest}</p>
+              ) : null}
+              {selectedMeasurements.length ? (
+                <p>Length: {selectedMeasurements.length}</p>
+              ) : null}
+              {selectedMeasurements.totalHeight ? (
+                <p>Total height: {selectedMeasurements.totalHeight}</p>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
 
         <ProductPrice product={product} variant={selectedVariant} />
 
