@@ -210,8 +210,8 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                           onClick={() => setIsZoomed((current) => !current)}
                         >
                           <div
-                            className={`relative mx-auto h-full transition-transform duration-300 ${
-                              isZoomed ? "scale-[1.85]" : "scale-100"
+                            className={`relative mx-auto h-full w-full max-w-full origin-center transition-transform duration-300 ${
+                              isZoomed ? "scale-[1.65]" : "scale-100"
                             }`}
                           >
                             <Image

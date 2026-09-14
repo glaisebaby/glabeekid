@@ -50,7 +50,7 @@ const InstagramReels = async () => {
                 rel="noreferrer"
                 className="group block overflow-hidden border border-black/8 bg-white shadow-[0_16px_36px_rgba(15,23,42,0.06)] transition-transform duration-200 hover:-translate-y-1"
               >
-                <div className="relative aspect-[4/5] bg-[#f6f7f9]">
+                <div className="relative aspect-[9/16] bg-[#f6f7f9]">
                   {reel.thumbnailUrl ? (
                     <Image
                       src={reel.thumbnailUrl}

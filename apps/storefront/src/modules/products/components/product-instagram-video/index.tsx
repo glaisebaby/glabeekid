@@ -21,7 +21,7 @@ const ProductInstagramVideo = ({
       className="content-container mb-16"
       data-testid="product-instagram-video"
     >
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-xl">
         <Text className="mb-3 inline-flex border border-black/10 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#f08a24]">
           Instagram
         </Text>

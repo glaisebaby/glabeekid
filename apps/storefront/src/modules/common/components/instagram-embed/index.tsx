@@ -19,12 +19,12 @@ const InstagramEmbed = ({
 
   return (
     <div
-      className={`overflow-hidden border border-black/10 bg-white shadow-[0_18px_42px_rgba(15,23,42,0.08)] ${className}`}
+      className={`mx-auto aspect-[9/16] w-full max-w-[430px] overflow-hidden border border-black/10 bg-white shadow-[0_18px_42px_rgba(15,23,42,0.08)] ${className}`}
     >
       <iframe
         src={embedUrl}
         title={title}
-        className="h-[620px] w-full bg-white"
+        className="h-full w-full bg-white"
         loading="lazy"
         allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
       />
