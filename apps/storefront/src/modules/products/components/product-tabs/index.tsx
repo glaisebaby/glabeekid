@@ -28,10 +28,8 @@ type SizeMeasurement = {
 
 const PRODUCT_DETAIL_METADATA_KEYS = [
   { key: "glabee_item_code", label: "Item code" },
-  { key: "available_sizes_label", label: "Available sizes" },
   { key: "original_fabric", label: "Fabric" },
   { key: "original_gender", label: "Gender" },
-  { key: "fit_note", label: "Fit details" },
 ]
 
 const getMetadataRecord = (value: unknown): Record<string, unknown> => {
@@ -286,9 +284,7 @@ const SizeGuideTab = ({ measurements }: { measurements: SizeMeasurement[] }) => 
       )}
 
       <p className="mt-4 text-sm text-ui-fg-subtle">
-        If you upload a size-chart image to the product gallery, or add
-        `size_chart_image_url` in product metadata, it will also appear with the
-        product images.
+        Measurements are listed only for sizes where fit details are available.
       </p>
     </div>
   )
@@ -299,22 +295,9 @@ const ProductInfoTab = ({
   selectedVariant,
 }: ProductTabsProps & { selectedVariant?: HttpTypes.StoreProductVariant }) => {
   const metadataDetails = getProductMetadataDetails(product, selectedVariant)
-  const selectedVariantLabel =
-    selectedVariant?.title ||
-    selectedVariant?.options
-      ?.map((option) => option.value)
-      .filter(Boolean)
-      .join(" / ")
 
   return (
     <div className="text-small-regular py-8">
-      {selectedVariantLabel ? (
-        <p className="mb-6 text-sm text-ui-fg-subtle">
-          Showing fit details for size{" "}
-          <span className="font-semibold">{selectedVariantLabel}</span>.
-        </p>
-      ) : null}
-
       <div className="grid grid-cols-2 gap-x-8">
         <div className="flex flex-col gap-y-4">
           <div>

@@ -4,7 +4,6 @@ import { addToCart } from "@lib/data/cart"
 import { useIntersection } from "@lib/hooks/use-in-view"
 import { HttpTypes } from "@medusajs/types"
 import { Button } from "@modules/common/components/ui"
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Divider from "@modules/common/components/divider"
 import OptionSelect from "@modules/products/components/product-actions/option-select"
 import { isEqual } from "lodash"
@@ -76,8 +75,6 @@ export default function ProductActions({
   const [isAdding, setIsAdding] = useState(false)
   const hasInitializedDefaultVariant = useRef(false)
   const countryCode = useParams().countryCode as string
-  const productMetadata = (product.metadata ?? {}) as Record<string, unknown>
-
   // Default to the first purchasable variant so shoppers don't land on an
   // unnecessary out-of-stock state when stock is available in another option.
   useEffect(() => {
@@ -157,39 +154,6 @@ export default function ProductActions({
 
   const inView = useIntersection(actionsRef, "0px")
 
-  const hasSizeMeasurements = useMemo(() => {
-    return (product.variants ?? []).some((variant) => {
-      const metadata = (variant.metadata ?? {}) as Record<string, unknown>
-
-      return [
-        metadata.chest_cm,
-        metadata.chest,
-        metadata.chest_size_cm,
-        metadata.total_height_cm,
-        metadata.height_cm,
-        metadata.total_height,
-        metadata.shoulder_to_shoulder_cm,
-        metadata.shoulder_cm,
-        metadata.shoulder,
-        metadata.garment_length_cm,
-        metadata.length_cm,
-        metadata.length,
-      ].some((value) => typeof value === "string" || typeof value === "number")
-    })
-  }, [product.variants])
-
-  const hasSizeChartImages = useMemo(() => {
-    return (
-      typeof productMetadata.size_chart_image_url === "string" ||
-      (Array.isArray(productMetadata.size_chart_image_urls) &&
-        productMetadata.size_chart_image_urls.length > 0)
-    )
-  }, [productMetadata])
-
-  const hasVisibleSizeGuide = hasSizeMeasurements || hasSizeChartImages
-  const sizeOption = (product.options ?? []).find((option) =>
-    (option.title ?? "").toLowerCase().includes("size")
-  )
   const selectedMeasurements = useMemo(() => {
     const metadata = (selectedVariant?.metadata ?? {}) as Record<string, unknown>
     const chest = readMeasurement(metadata, [
@@ -249,16 +213,6 @@ export default function ProductActions({
                       data-testid="product-options"
                       disabled={!!disabled || isAdding}
                     />
-                    {hasVisibleSizeGuide && sizeOption?.id === option.id && (
-                      <div className="mt-3 flex justify-end">
-                        <LocalizedClientLink
-                          href={`/products/${product.handle}#size-guide`}
-                          className="inline-flex items-center border border-black/12 bg-[#f7f9fc] px-4 py-2 text-sm font-medium text-black transition-all duration-150 hover:-translate-y-0.5 hover:bg-white"
-                        >
-                          View size chart
-                        </LocalizedClientLink>
-                      </div>
-                    )}
                   </div>
                 )
               })}
