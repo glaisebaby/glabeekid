@@ -15,7 +15,8 @@
     "backend:dev": "turbo dev --filter=@glabeekid/backend",
     "storefront:dev": "turbo dev --filter=@glabeekid/storefront",
     "keepalive:check": "npm --prefix apps/keepalive-worker run check",
-    "keepalive:deploy": "npm --prefix apps/keepalive-worker run deploy"
+    "keepalive:deploy": "npm --prefix apps/keepalive-worker run deploy",
+    "postinstall": "node scripts/patch-medusa-dashboard.cjs"
   },
   "pnpm": {
     "overrides": {
