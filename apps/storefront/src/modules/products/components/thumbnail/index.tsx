@@ -49,11 +49,14 @@ const ImageOrPlaceholder = ({
   image,
   size,
 }: Pick<ThumbnailProps, "size"> & { image?: string }) => {
+  const imageFitClass =
+    size === "square" ? "object-cover" : "object-contain p-1"
+
   return image ? (
     <Image
       src={image}
       alt="Thumbnail"
-      className="absolute inset-0 object-cover object-center"
+      className={clx("absolute inset-0 object-center", imageFitClass)}
       draggable={false}
       quality={50}
       loading="lazy"
