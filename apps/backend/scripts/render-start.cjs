@@ -15,19 +15,16 @@ const builtAdminDir = path.join(
 )
 
 const runtimeAdminDir = path.join(process.cwd(), "public", "admin")
-const runtimeAdminIndexPath = path.join(runtimeAdminDir, "index.html")
 const builtAdminIndexPath = path.join(builtAdminDir, "index.html")
 
-if (!fs.existsSync(builtAdminIndexPath)) {
-  const buildResult = spawnSync("npx", ["medusa", "build"], {
-    stdio: "inherit",
-    shell: process.platform === "win32",
-    env: process.env,
-  })
+const buildResult = spawnSync("npx", ["medusa", "build"], {
+  stdio: "inherit",
+  shell: process.platform === "win32",
+  env: process.env,
+})
 
-  if (buildResult.status !== 0) {
-    process.exit(buildResult.status ?? 1)
-  }
+if (buildResult.status !== 0) {
+  process.exit(buildResult.status ?? 1)
 }
 
 if (fs.existsSync(builtAdminIndexPath)) {

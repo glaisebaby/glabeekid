@@ -46,6 +46,12 @@ const serveAdminAsset = (
   }
 
   if (!existsSync(assetPath)) {
+    const extension = path.extname(assetPath).toLowerCase()
+
+    if (ASSET_CONTENT_TYPES[extension]) {
+      return res.status(404).send("Admin asset not found")
+    }
+
     return next()
   }
 
