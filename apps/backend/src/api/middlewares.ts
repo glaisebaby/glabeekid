@@ -1,3 +1,5 @@
+import path from "node:path"
+import { createReadStream, existsSync } from "node:fs"
 import {
   AuthenticatedMedusaRequest,
   MedusaNextFunction,
@@ -17,6 +19,45 @@ import {
 } from "../lib/access-control"
 
 const PRODUCT_IMAGE_UPLOAD_SIZE_LIMIT = "5mb"
+const ADMIN_ASSETS_DIR = path.join(process.cwd(), "public", "admin", "assets")
+const ASSET_CONTENT_TYPES: Record<string, string> = {
+  ".css": "text/css; charset=utf-8",
+  ".js": "application/javascript; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".svg": "image/svg+xml",
+  ".webp": "image/webp",
+  ".woff": "font/woff",
+  ".woff2": "font/woff2",
+}
+
+const serveAdminAsset = (
+  req: MedusaRequest,
+  res: MedusaResponse,
+  next: MedusaNextFunction
+) => {
+  const assetName = decodeURIComponent(req.path.replace(/^\/app\/assets\//, ""))
+  const assetPath = path.resolve(ADMIN_ASSETS_DIR, assetName)
+
+  if (!assetPath.startsWith(path.resolve(ADMIN_ASSETS_DIR) + path.sep)) {
+    return res.status(400).send("Invalid asset path")
+  }
+
+  if (!existsSync(assetPath)) {
+    return next()
+  }
+
+  const extension = path.extname(assetPath).toLowerCase()
+  res.setHeader(
+    "Content-Type",
+    ASSET_CONTENT_TYPES[extension] || "application/octet-stream"
+  )
+  res.setHeader("Cache-Control", "public, max-age=31536000, immutable")
+
+  return createReadStream(assetPath).pipe(res)
+}
 
 const auditAdminMutation = async (
   req: MedusaRequest,
@@ -115,6 +156,11 @@ const requireMasterForStoreSettings = async (
 }
 
 export default defineMiddlewares([
+  {
+    methods: ["GET"],
+    matcher: "/app/assets/*",
+    middlewares: [serveAdminAsset],
+  },
   {
     methods: ["POST"],
     matcher: "/admin/uploads",
