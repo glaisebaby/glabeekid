@@ -204,24 +204,20 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                     <div className="relative flex min-h-[70vh] items-center justify-center bg-[#0a0a0a]">
                       {activeImage ? (
                         <div
-                          className={`relative h-[70vh] w-full overflow-auto px-4 py-6 small:px-8 ${
+                          className={`flex h-[70vh] w-full items-center justify-center overflow-auto px-4 py-6 small:px-8 ${
                             isZoomed ? "cursor-zoom-out" : "cursor-zoom-in"
                           }`}
                           onClick={() => setIsZoomed((current) => !current)}
                         >
-                          <div
-                            className={`relative mx-auto h-full w-full max-w-full origin-center transition-transform duration-300 ${
-                              isZoomed ? "scale-[1.65]" : "scale-100"
+                          <img
+                            src={activeImage.url}
+                            alt={`Expanded product image ${activeIndex + 1}`}
+                            className={`block object-contain transition-all duration-300 ${
+                              isZoomed
+                                ? "h-auto max-h-none max-w-none"
+                                : "max-h-full max-w-full"
                             }`}
-                          >
-                            <Image
-                              src={activeImage.url}
-                              alt={`Expanded product image ${activeIndex + 1}`}
-                              fill
-                              className="object-contain"
-                              sizes="100vw"
-                            />
-                          </div>
+                          />
                         </div>
                       ) : null}
 
