@@ -13,7 +13,7 @@
     "medusa"
   ],
   "scripts": {
-    "build": "medusa build",
+    "build": "medusa build && node scripts/prepare-admin-assets.cjs",
     "start": "medusa start",
     "db:setup:render": "node scripts/render-db-setup.cjs",
     "start:render": "node scripts/render-start.cjs",
