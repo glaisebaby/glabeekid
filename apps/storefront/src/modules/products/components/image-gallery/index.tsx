@@ -175,33 +175,31 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                   </div>
 
                   <div className="grid gap-0 lg:grid-cols-[112px_minmax(0,1fr)]">
-                    {galleryImages.length > 1 ? (
-                      <div className="hidden max-h-[78vh] overflow-y-auto border-r border-white/10 bg-white/5 p-3 lg:flex lg:flex-col lg:gap-3">
-                        {galleryImages.map((image, index) => (
-                          <button
-                            key={image.id}
-                            type="button"
-                            onClick={() => goToImage(index)}
-                            className={`relative aspect-[3/4] overflow-hidden border transition-colors ${
-                              index === activeIndex
-                                ? "border-white/80"
-                                : "border-white/10 hover:border-white/35"
-                            }`}
-                          >
-                            <Image
-                              src={image.url}
-                              alt={`Thumbnail ${index + 1}`}
-                              fill
-                              className="object-cover"
-                              loading="lazy"
-                              sizes="112px"
-                            />
-                          </button>
-                        ))}
-                      </div>
-                    ) : null}
+                    <div className="hidden max-h-[78vh] overflow-y-auto border-r border-white/10 bg-white/5 p-3 lg:flex lg:flex-col lg:gap-3">
+                      {galleryImages.map((image, index) => (
+                        <button
+                          key={image.id}
+                          type="button"
+                          onClick={() => goToImage(index)}
+                          className={`relative aspect-[3/4] overflow-hidden border transition-colors ${
+                            index === activeIndex
+                              ? "border-white/80"
+                              : "border-white/10 hover:border-white/35"
+                          }`}
+                        >
+                          <Image
+                            src={image.url}
+                            alt={`Thumbnail ${index + 1}`}
+                            fill
+                            className="object-cover"
+                            loading="lazy"
+                            sizes="112px"
+                          />
+                        </button>
+                      ))}
+                    </div>
 
-                    <div className="relative flex min-h-[70vh] items-center justify-center bg-[#0a0a0a]">
+                    <div className="relative flex min-h-[70vh] items-center justify-center bg-[#0a0a0a] lg:col-start-2">
                       {activeImage ? (
                         <div
                           className={`flex h-[70vh] w-full items-center justify-center overflow-auto px-4 py-6 small:px-8 ${
@@ -214,8 +212,8 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                             alt={`Expanded product image ${activeIndex + 1}`}
                             className={`block object-contain transition-all duration-300 ${
                               isZoomed
-                                ? "h-auto max-h-none max-w-none"
-                                : "max-h-full max-w-full"
+                                ? "h-auto max-h-none max-w-none scale-150"
+                                : "h-full w-full max-h-full max-w-full"
                             }`}
                           />
                         </div>
