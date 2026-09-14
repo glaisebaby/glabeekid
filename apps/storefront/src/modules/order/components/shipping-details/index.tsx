@@ -8,7 +8,31 @@ type ShippingDetailsProps = {
   order: HttpTypes.StoreOrder
 }
 
+type ManualShippingMetadata = {
+  enabled?: boolean
+  courier_name?: string
+  tracking_number?: string
+  tracking_url?: string
+  shipped_at?: string
+}
+
+const getManualShipping = (
+  metadata: HttpTypes.StoreOrder["metadata"]
+): ManualShippingMetadata | null => {
+  const value = metadata?.manual_shipping
+
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return null
+  }
+
+  const manualShipping = value as ManualShippingMetadata
+
+  return manualShipping.enabled ? manualShipping : null
+}
+
 const ShippingDetails = ({ order }: ShippingDetailsProps) => {
+  const manualShipping = getManualShipping(order.metadata)
+
   return (
     <div>
       <Heading level="h2" className="mb-5 text-2xl text-black">
@@ -67,6 +91,38 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
             })}
             )
           </Text>
+          {manualShipping ? (
+            <div className="mt-4 border-t border-black/8 pt-3">
+              <Text className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-black/45">
+                Manual Courier
+              </Text>
+              {manualShipping.courier_name ? (
+                <Text className="text-sm text-black/68">
+                  {manualShipping.courier_name}
+                </Text>
+              ) : null}
+              {manualShipping.tracking_number ? (
+                <Text className="break-all text-sm text-black/68">
+                  Tracking: {manualShipping.tracking_number}
+                </Text>
+              ) : null}
+              {manualShipping.shipped_at ? (
+                <Text className="text-sm text-black/68">
+                  Shipped: {manualShipping.shipped_at}
+                </Text>
+              ) : null}
+              {manualShipping.tracking_url ? (
+                <a
+                  href={manualShipping.tracking_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 inline-flex text-sm font-semibold text-black underline underline-offset-4"
+                >
+                  Track shipment
+                </a>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </div>
       <Divider className="mt-6" />
