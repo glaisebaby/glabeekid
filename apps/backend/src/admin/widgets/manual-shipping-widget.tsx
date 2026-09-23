@@ -1,6 +1,6 @@
 import { defineWidgetConfig } from "@medusajs/admin-sdk"
 import { Container, Heading, Input, Text } from "@medusajs/ui"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 type ManualShippingWidgetProps = {
   data?: {
@@ -31,6 +31,7 @@ type ManualShippingMetadata = {
 }
 
 const MANUAL_SHIPPING_METADATA_KEY = "manual_shipping"
+const EMPTY_METADATA: Record<string, unknown> = {}
 
 const EMPTY_FORM: ManualShippingForm = {
   enabled: false,
@@ -75,7 +76,10 @@ const toForm = (metadata: Record<string, unknown>): ManualShippingForm => {
 
 const ManualShippingWidget = ({ data }: ManualShippingWidgetProps) => {
   const orderId = data?.id
-  const rawMetadata = (data?.metadata ?? {}) as Record<string, unknown>
+  const rawMetadata = useMemo(
+    () => (data?.metadata ?? EMPTY_METADATA) as Record<string, unknown>,
+    [data?.metadata]
+  )
   const [form, setForm] = useState<ManualShippingForm>(EMPTY_FORM)
   const [status, setStatus] = useState<{
     type: "idle" | "success" | "error"
